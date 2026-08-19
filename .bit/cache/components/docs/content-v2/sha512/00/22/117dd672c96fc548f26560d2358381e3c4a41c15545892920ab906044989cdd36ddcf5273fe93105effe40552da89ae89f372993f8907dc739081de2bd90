@@ -1,0 +1,1 @@
+[{"name":"","description":"Simulation clock rather than performance.now().\n\nThis makes tactical-sprint double-tapping deterministic in tests.","args":[],"returns":{},"access":"public","examples":[],"render":"","properties":[],"static":false,"filePath":"player-controller.ts"}]

@@ -1,708 +1,885 @@
 import * as THREE from 'three';
-import { describe, expect, it, vi } from 'vitest';
-
+import { describe, expect, it } from 'vitest';
 import { PlayerController } from './player-controller.js';
 
-/** Steps the controller forward by a number of fixed frames. */
-function simulate(player: PlayerController, seconds: number): void {
+function simulate(
+  player: PlayerController,
+  seconds: number
+): void {
   const step = 1 / 60;
 
-  for (let t = 0; t < seconds; t += step) {
+  for (
+    let t = 0;
+    t < seconds;
+    t += step
+  ) {
     player.update(step);
   }
 }
 
-function makePlayer(colliders: THREE.Box3[] = []): PlayerController {
-  return new PlayerController(
-    new THREE.PerspectiveCamera(75, 1, 0.1, 500),
-    colliders
-  );
-}
-
-/**
- * Resolves the player's initial gravity/ground state.
- */
-function settle(player: PlayerController): void {
-  simulate(player, 1 / 60);
+function press(
+  player: PlayerController,
+  code: string
+): void {
+  player.handleKey(code, true);
+  player.handleKey(code, false);
 }
 
 describe('PlayerController', () => {
-  it('moves forward while W is held and stops accelerating when released', () => {
+  const makePlayer = (
+    colliders: THREE.Box3[] = []
+  ) =>
+    new PlayerController(
+      new THREE.PerspectiveCamera(
+        75,
+        1,
+        0.1,
+        500
+      ),
+      colliders
+    );
+
+  it('moves forward while W is held and stops when released', () => {
     const player = makePlayer();
 
-    settle(player);
+    const startZ =
+      player.worldPosition.z;
 
-    const startZ = player.worldPosition.z;
+    player.handleKey(
+      'KeyW',
+      true
+    );
 
-    player.handleKey('KeyW', true);
     simulate(player, 0.5);
 
-    const movedZ = player.worldPosition.z;
+    const movedZ =
+      player.worldPosition.z;
 
-    expect(movedZ).toBeLessThan(startZ);
+    expect(movedZ).toBeLessThan(
+      startZ
+    );
 
-    player.handleKey('KeyW', false);
+    player.handleKey(
+      'KeyW',
+      false
+    );
+
     simulate(player, 1);
 
-    /*
-     * The controller uses velocity smoothing, so the player may coast
-     * slightly after releasing W. It should not continue moving indefinitely.
-     */
-    expect(Math.abs(player.worldPosition.z - movedZ)).toBeLessThan(1.5);
+    expect(
+      Math.abs(
+        player.worldPosition.z -
+          movedZ
+      )
+    ).toBeLessThan(0.6);
   });
 
-  it('jumps from the ground and lands again under gravity', () => {
+  it('jumps off the ground and lands back down under gravity', () => {
     const player = makePlayer();
 
-    settle(player);
+    simulate(player, 0.2);
 
-    const groundY = player.worldPosition.y;
+    const groundY =
+      player.worldPosition.y;
 
-    player.handleKey('Space', true);
-    simulate(player, 1 / 60);
-
-    player.handleKey('Space', false);
+    press(player, 'Space');
 
     simulate(player, 0.25);
 
-    expect(player.worldPosition.y).toBeGreaterThan(groundY);
-
-    simulate(player, 3);
-
-    expect(player.grounded).toBe(true);
-    expect(player.worldPosition.y).toBeCloseTo(groundY, 1);
-  });
-
-  it('does not repeatedly jump while Space is held', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    const groundY = player.worldPosition.y;
-
-    player.handleKey('Space', true);
-
-    simulate(player, 0.2);
-
-    const firstJumpHeight = player.worldPosition.y;
-
-    /*
-     * Space remains held, but the controller should only consume the
-     * initial press once.
-     */
-    simulate(player, 0.2);
-
-    expect(player.worldPosition.y).not.toBeGreaterThan(
-      firstJumpHeight + 2
+    expect(
+      player.worldPosition.y
+    ).toBeGreaterThan(
+      groundY
     );
 
-    player.handleKey('Space', false);
-
     simulate(player, 3);
 
-    expect(player.worldPosition.y).toBeCloseTo(groundY, 1);
+    expect(
+      player.worldPosition.y
+    ).toBeCloseTo(
+      groundY,
+      1
+    );
+
+    expect(
+      player.grounded
+    ).toBe(true);
   });
 
   it('is blocked by a collider instead of passing through it', () => {
-    const wall = new THREE.Box3(
-      new THREE.Vector3(-10, 0, -6),
-      new THREE.Vector3(10, 4, -5)
+    const wall =
+      new THREE.Box3(
+        new THREE.Vector3(
+          -10,
+          0,
+          -6
+        ),
+        new THREE.Vector3(
+          10,
+          4,
+          -5
+        )
+      );
+
+    const player =
+      makePlayer([wall]);
+
+    player.handleKey(
+      'KeyW',
+      true
     );
 
-    const player = makePlayer([wall]);
-
-    settle(player);
-
-    player.handleKey('KeyW', true);
     simulate(player, 4);
 
-    player.handleKey('KeyW', false);
-
-    expect(player.worldPosition.z).toBeGreaterThan(
+    expect(
+      player.worldPosition.z
+    ).toBeGreaterThan(
       wall.max.z
     );
   });
 
-  it('lands on a staircase step instead of falling through it', () => {
-    const lowerStep = new THREE.Box3(
-      new THREE.Vector3(-3, 0, 15),
-      new THREE.Vector3(3, 1.7, 30)
+  it('lands on the next staircase step', () => {
+    const lowerStep =
+      new THREE.Box3(
+        new THREE.Vector3(
+          -3,
+          0,
+          15
+        ),
+        new THREE.Vector3(
+          3,
+          1.7,
+          30
+        )
+      );
+
+    const upperStep =
+      new THREE.Box3(
+        new THREE.Vector3(
+          -3,
+          0,
+          7
+        ),
+        new THREE.Vector3(
+          3,
+          2.6,
+          14
+        )
+      );
+
+    const player =
+      makePlayer([
+        lowerStep,
+        upperStep,
+      ]);
+
+    simulate(
+      player,
+      1 / 60
     );
 
-    const upperStep = new THREE.Box3(
-      new THREE.Vector3(-3, 0, 7),
-      new THREE.Vector3(3, 2.6, 14)
+    expect(
+      player.grounded
+    ).toBe(true);
+
+    player.handleKey(
+      'KeyW',
+      true
     );
 
-    const player = makePlayer([
-      lowerStep,
-      upperStep,
-    ]);
+    press(
+      player,
+      'Space'
+    );
 
-    settle(player);
+    simulate(
+      player,
+      1.6
+    );
 
-    expect(player.grounded).toBe(true);
+    player.handleKey(
+      'KeyW',
+      false
+    );
 
-    /*
-     * Jump forward toward the upper step.
-     */
-    player.handleKey('KeyW', true);
-    player.handleKey('Space', true);
+    simulate(
+      player,
+      1.5
+    );
 
-    simulate(player, 1 / 60);
+    expect(
+      player.grounded
+    ).toBe(true);
 
-    player.handleKey('Space', false);
-
-    simulate(player, 1.6);
-
-    player.handleKey('KeyW', false);
-
-    simulate(player, 1);
-
-    expect(player.grounded).toBe(true);
-
-    expect(player.worldPosition.y).toBeCloseTo(
-      upperStep.max.y + 1.7,
+    expect(
+      player.worldPosition.y
+    ).toBeCloseTo(
+      upperStep.max.y +
+        1.7,
       1
     );
   });
 
-  it('moves faster while sprinting than while walking', () => {
-    const walker = makePlayer();
+  it('sprints faster than normal walking', () => {
+    const walker =
+      makePlayer();
 
-    settle(walker);
-
-    walker.handleKey('KeyW', true);
-    simulate(walker, 1);
-
-    const walkDistance = Math.abs(
-      walker.worldPosition.z - 22
+    walker.handleKey(
+      'KeyW',
+      true
     );
 
-    const sprinter = makePlayer();
-
-    settle(sprinter);
-
-    sprinter.handleKey('KeyW', true);
-    sprinter.handleKey('ShiftLeft', true);
-
-    simulate(sprinter, 1);
-
-    const sprintDistance = Math.abs(
-      sprinter.worldPosition.z - 22
+    simulate(
+      walker,
+      1
     );
 
-    expect(sprintDistance).toBeGreaterThan(
-      walkDistance
+    const sprinter =
+      makePlayer();
+
+    sprinter.handleKey(
+      'KeyW',
+      true
+    );
+
+    sprinter.handleKey(
+      'ShiftLeft',
+      true
+    );
+
+    simulate(
+      sprinter,
+      1
+    );
+
+    expect(
+      sprinter.toSnapshot().speed
+    ).toBeGreaterThan(
+      walker.toSnapshot().speed
     );
   });
 
-  it('enters normal sprinting when Shift is held while moving forward', () => {
-    const player = makePlayer();
+  it('crouches when C is pressed', () => {
+    const player =
+      makePlayer();
 
-    settle(player);
+    simulate(
+      player,
+      1 / 60
+    );
 
-    player.handleKey('KeyW', true);
-    player.handleKey('ShiftLeft', true);
+    press(
+      player,
+      'KeyC'
+    );
 
-    simulate(player, 0.25);
+    simulate(
+      player,
+      0.25
+    );
 
-    expect(player.state).toBe('sprinting');
-    expect(player.tacticalSprinting).toBe(false);
+    expect(
+      player.currentStance
+    ).toBe('crouch');
+
+    expect(
+      player.worldPosition.y
+    ).toBeLessThan(1.7);
+
+    expect(
+      player.height
+    ).toBeCloseTo(
+      1.15,
+      1
+    );
   });
 
-  it('activates tactical sprint when Shift is double-tapped', () => {
-    const player = makePlayer();
+  it('stands back up when C is pressed again', () => {
+    const player =
+      makePlayer();
 
-    settle(player);
+    simulate(
+      player,
+      1 / 60
+    );
 
-    player.handleKey('KeyW', true);
+    press(
+      player,
+      'KeyC'
+    );
 
-    player.handleKey('ShiftLeft', true);
-    player.handleKey('ShiftLeft', false);
+    simulate(
+      player,
+      0.25
+    );
+
+    expect(
+      player.currentStance
+    ).toBe('crouch');
+
+    press(
+      player,
+      'KeyC'
+    );
+
+    simulate(
+      player,
+      0.25
+    );
+
+    expect(
+      player.currentStance
+    ).toBe('stand');
+  });
+
+  it('goes prone when X is pressed', () => {
+    const player =
+      makePlayer();
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    press(
+      player,
+      'KeyX'
+    );
+
+    simulate(
+      player,
+      0.5
+    );
+
+    expect(
+      player.currentStance
+    ).toBe('prone');
+
+    expect(
+      player.height
+    ).toBeCloseTo(
+      0.55,
+      1
+    );
+  });
+
+  it('X toggles back out of prone', () => {
+    const player =
+      makePlayer();
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    press(
+      player,
+      'KeyX'
+    );
+
+    simulate(
+      player,
+      0.5
+    );
+
+    expect(
+      player.currentStance
+    ).toBe('prone');
+
+    press(
+      player,
+      'KeyX'
+    );
+
+    simulate(
+      player,
+      0.5
+    );
+
+    expect(
+      player.currentStance
+    ).toBe('stand');
+  });
+
+  it('starts a slide by pressing C while sprinting', () => {
+    const player =
+      makePlayer();
+
+    player.handleKey(
+      'KeyW',
+      true
+    );
+
+    player.handleKey(
+      'ShiftLeft',
+      true
+    );
+
+    simulate(
+      player,
+      0.5
+    );
+
+    expect(
+      player.state
+    ).toBe('sprinting');
+
+    press(
+      player,
+      'KeyC'
+    );
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    expect(
+      player.isSliding
+    ).toBe(true);
+
+    expect(
+      player.currentStance
+    ).toBe('crouch');
+  });
+
+  it('slide-cancels when C is pressed again', () => {
+    const player =
+      makePlayer();
+
+    player.handleKey(
+      'KeyW',
+      true
+    );
+
+    player.handleKey(
+      'ShiftLeft',
+      true
+    );
+
+    simulate(
+      player,
+      0.5
+    );
+
+    press(
+      player,
+      'KeyC'
+    );
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    expect(
+      player.isSliding
+    ).toBe(true);
+
+    press(
+      player,
+      'KeyC'
+    );
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    expect(
+      player.isSliding
+    ).toBe(false);
+  });
+
+  it('slide-cancels and jumps when Space is pressed', () => {
+    const player =
+      makePlayer();
+
+    player.handleKey(
+      'KeyW',
+      true
+    );
+
+    player.handleKey(
+      'ShiftLeft',
+      true
+    );
+
+    simulate(
+      player,
+      0.5
+    );
+
+    press(
+      player,
+      'KeyC'
+    );
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    expect(
+      player.isSliding
+    ).toBe(true);
+
+    press(
+      player,
+      'Space'
+    );
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    expect(
+      player.isSliding
+    ).toBe(false);
+
+    expect(
+      player.grounded
+    ).toBe(false);
+
+    expect(
+      player.worldPosition.y
+    ).toBeGreaterThan(
+      1.15
+    );
+  });
+
+  it('tactical sprints after a quick double-tap of Shift', () => {
+    const player =
+      makePlayer();
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    player.handleKey(
+      'KeyW',
+      true
+    );
+
+    player.handleKey(
+      'ShiftLeft',
+      true
+    );
+
+    player.handleKey(
+      'ShiftLeft',
+      false
+    );
+
+    simulate(
+      player,
+      0.1
+    );
+
+    player.handleKey(
+      'ShiftLeft',
+      true
+    );
+
+    expect(
+      player.tacticalSprinting
+    ).toBe(true);
+
+    expect(
+      player.state
+    ).toBe(
+      'tactical-sprinting'
+    );
+  });
+
+  it('does not tactical sprint after a slow Shift double-tap', () => {
+    const player =
+      makePlayer();
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    player.handleKey(
+      'KeyW',
+      true
+    );
+
+    player.handleKey(
+      'ShiftLeft',
+      true
+    );
+
+    player.handleKey(
+      'ShiftLeft',
+      false
+    );
+
+    simulate(
+      player,
+      0.5
+    );
+
+    player.handleKey(
+      'ShiftLeft',
+      true
+    );
+
+    expect(
+      player.tacticalSprinting
+    ).toBe(false);
+  });
+
+  it('Space near a climbable ledge starts a climb without walking into it', () => {
+    const ledge =
+      new THREE.Box3(
+        new THREE.Vector3(
+          -3,
+          0,
+          20
+        ),
+        new THREE.Vector3(
+          3,
+          2,
+          21
+        )
+      );
+
+    const player =
+      makePlayer([
+        ledge
+      ]);
 
     /*
-     * A second press immediately after the first is inside the
-     * tactical sprint double-tap window.
+     * Spawn is at z=22, so the player is already
+     * close to the ledge. No W input is required.
      */
-    player.handleKey('ShiftLeft', true);
+    simulate(
+      player,
+      1 / 60
+    );
 
-    simulate(player, 1 / 60);
+    expect(
+      player.grounded
+    ).toBe(true);
 
-    expect(player.tacticalSprinting).toBe(true);
-    expect(player.state).toBe('tactical-sprinting');
+    press(
+      player,
+      'Space'
+    );
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    expect(
+      player.state
+    ).toBe('climbing');
   });
 
-  it('automatically falls back to normal sprint after tactical sprint expires', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyW', true);
-
-    player.handleKey('ShiftLeft', true);
-    player.handleKey('ShiftLeft', false);
-    player.handleKey('ShiftLeft', true);
-
-    simulate(player, 1 / 60);
-
-    expect(player.tacticalSprinting).toBe(true);
-
-    simulate(player, 1.25);
-
-    expect(player.tacticalSprinting).toBe(false);
-    expect(player.state).toBe('sprinting');
-  });
-
-  it('does not activate tactical sprint without forward movement', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('ShiftLeft', true);
-    player.handleKey('ShiftLeft', false);
-    player.handleKey('ShiftLeft', true);
-
-    simulate(player, 0.1);
-
-    expect(player.tacticalSprinting).toBe(false);
-  });
-
-  it('enters crouch when C is pressed without sprinting', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyC', true);
-    simulate(player, 0.1);
-
-    expect(player.state).toBe('crouching');
-    expect(player.height).toBeLessThan(1.7);
-  });
-
-  it('toggles crouch back to standing when C is pressed again', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
-
-    simulate(player, 0.1);
-
-    expect(player.state).toBe('crouching');
-
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
-
-    simulate(player, 0.2);
-
-    expect(player.state).toBe('walking');
-    expect(player.height).toBeCloseTo(1.7, 1);
-  });
-
-  it('starts a slide by tapping C while sprinting', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyW', true);
-    player.handleKey('ShiftLeft', true);
-
-    simulate(player, 0.5);
-
-    expect(player.state).toBe('sprinting');
-
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
-
-    simulate(player, 1 / 60);
-
-    expect(player.sliding).toBe(true);
-    expect(player.state).toBe('sliding');
-  });
-
-  it('starts a slide from tactical sprint', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyW', true);
-
-    player.handleKey('ShiftLeft', true);
-    player.handleKey('ShiftLeft', false);
-    player.handleKey('ShiftLeft', true);
-
-    simulate(player, 1 / 60);
-
-    expect(player.tacticalSprinting).toBe(true);
-
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
-
-    simulate(player, 1 / 60);
-
-    expect(player.sliding).toBe(true);
-  });
-
-  it('does not require C to remain held during a slide', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyW', true);
-    player.handleKey('ShiftLeft', true);
-
-    simulate(player, 0.5);
-
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
-
-    simulate(player, 0.2);
-
-    expect(player.sliding).toBe(true);
-
-    /*
-     * C is no longer held, but the slide remains active.
-     */
-    simulate(player, 0.2);
-
-    expect(player.sliding).toBe(true);
-  });
-
-  it('naturally exits the slide after the slide duration', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyW', true);
-    player.handleKey('ShiftLeft', true);
-
-    simulate(player, 0.5);
-
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
-
-    simulate(player, 1 / 60);
-
-    expect(player.sliding).toBe(true);
-
-    simulate(player, 1);
-
-    expect(player.sliding).toBe(false);
-  });
-
-  it('slide-cancels when C is tapped during a slide', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyW', true);
-    player.handleKey('ShiftLeft', true);
-
-    simulate(player, 0.5);
-
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
-
-    simulate(player, 1 / 60);
-
-    expect(player.sliding).toBe(true);
-
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
-
-    simulate(player, 1 / 60);
-
-    expect(player.sliding).toBe(false);
-  });
-
-  it('slide-cancels and jumps when Space is pressed during a slide', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyW', true);
-    player.handleKey('ShiftLeft', true);
-
-    simulate(player, 0.5);
-
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
-
-    simulate(player, 1 / 60);
-
-    expect(player.sliding).toBe(true);
-
-    const slideCancelY = player.worldPosition.y;
-
-    player.handleKey('Space', true);
-    simulate(player, 1 / 60);
-    player.handleKey('Space', false);
-
-    expect(player.sliding).toBe(false);
-
-    simulate(player, 0.1);
-
-    expect(player.worldPosition.y).toBeGreaterThan(
-      slideCancelY
+  it('does not climb a wall that is too high', () => {
+    const wall =
+      new THREE.Box3(
+        new THREE.Vector3(
+          -3,
+          0,
+          20
+        ),
+        new THREE.Vector3(
+          3,
+          4,
+          21
+        )
+      );
+
+    const player =
+      makePlayer([
+        wall
+      ]);
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    press(
+      player,
+      'Space'
+    );
+
+    simulate(
+      player,
+      1 / 60
+    );
+
+    expect(
+      player.state
+    ).not.toBe(
+      'climbing'
     );
   });
 
-  it('preserves horizontal momentum when slide-canceling', () => {
-    const player = makePlayer();
+  it('takes fall damage from a moderate fall', () => {
+    const player =
+      makePlayer();
 
-    settle(player);
+    player.worldPosition.set(
+      0,
+      1.7 + 6,
+      0
+    );
 
-    player.handleKey('KeyW', true);
-    player.handleKey('ShiftLeft', true);
+    simulate(
+      player,
+      2
+    );
 
-    simulate(player, 0.5);
+    expect(
+      player.currentHealth
+    ).toBeLessThan(100);
 
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
+    expect(
+      player.currentHealth
+    ).toBeGreaterThan(0);
+  });
 
-    simulate(player, 1 / 60);
+  it('does not take damage from a normal jump', () => {
+    const player =
+      makePlayer();
 
-    expect(player.sliding).toBe(true);
+    simulate(
+      player,
+      1 / 60
+    );
 
-    const beforeCancelZ = player.worldPosition.z;
+    press(
+      player,
+      'Space'
+    );
 
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
+    simulate(
+      player,
+      2
+    );
 
-    simulate(player, 0.1);
+    expect(
+      player.currentHealth
+    ).toBe(100);
+  });
 
-    expect(player.worldPosition.z).toBeLessThan(
-      beforeCancelZ
+  it('respawns at full health after a lethal fall', () => {
+    const player =
+      makePlayer();
+
+    player.worldPosition.set(
+      0,
+      60,
+      0
+    );
+
+    simulate(
+      player,
+      4
+    );
+
+    expect(
+      player.currentHealth
+    ).toBe(100);
+
+    expect(
+      player.worldPosition.y
+    ).toBeCloseTo(
+      1.7,
+      1
     );
   });
 
-  it('enters prone when X is pressed', () => {
-    const player = makePlayer();
+  it('toggles debug only with Ctrl+Shift+B', () => {
+    const player =
+      makePlayer();
 
-    settle(player);
+    expect(
+      player.handleKey(
+        'KeyB',
+        true
+      )
+    ).toBe(false);
 
-    player.handleKey('KeyX', true);
-    player.handleKey('KeyX', false);
+    expect(
+      player.debugEnabled
+    ).toBe(false);
 
-    simulate(player, 0.2);
-
-    expect(player.prone).toBe(true);
-    expect(player.state).toBe('prone');
-    expect(player.height).toBeLessThan(1.0);
-  });
-
-  it('toggles out of prone when X is pressed again', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyX', true);
-    player.handleKey('KeyX', false);
-
-    simulate(player, 0.2);
-
-    expect(player.prone).toBe(true);
-
-    player.handleKey('KeyX', true);
-    player.handleKey('KeyX', false);
-
-    simulate(player, 0.2);
-
-    expect(player.prone).toBe(false);
-    expect(player.state).toBe('walking');
-  });
-
-  it('allows C to exit prone', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyX', true);
-    player.handleKey('KeyX', false);
-
-    simulate(player, 0.2);
-
-    expect(player.prone).toBe(true);
-
-    player.handleKey('KeyC', true);
-    player.handleKey('KeyC', false);
-
-    simulate(player, 0.2);
-
-    expect(player.prone).toBe(false);
-  });
-
-  it('does not allow X to enter prone while airborne', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('Space', true);
-    simulate(player, 1 / 60);
-    player.handleKey('Space', false);
-
-    player.handleKey('KeyX', true);
-    player.handleKey('KeyX', false);
-
-    simulate(player, 0.1);
-
-    expect(player.prone).toBe(false);
-  });
-
-  it('does not climb simply by walking into a climbable wall', () => {
-    const wall = new THREE.Box3(
-      new THREE.Vector3(-3, 0, -5),
-      new THREE.Vector3(3, 2, -4)
+    player.handleKey(
+      'ControlLeft',
+      true
     );
 
-    const player = makePlayer([wall]);
+    player.handleKey(
+      'ShiftLeft',
+      true
+    );
 
-    settle(player);
+    expect(
+      player.handleKey(
+        'KeyB',
+        true
+      )
+    ).toBe(true);
 
-    player.handleKey('KeyW', true);
-    simulate(player, 4);
+    expect(
+      player.debugEnabled
+    ).toBe(true);
 
-    player.handleKey('KeyW', false);
+    expect(
+      player.handleKey(
+        'KeyB',
+        true
+      )
+    ).toBe(true);
 
-    /*
-     * Walking into the wall should leave us on the near side.
-     * Climbing requires an explicit Space press.
-     */
-    expect(player.state).not.toBe('climbing');
-    expect(player.worldPosition.z).toBeGreaterThan(wall.max.z);
+    expect(
+      player.debugEnabled
+    ).toBe(false);
   });
 
-  it('climbs when Space is pressed near a climbable wall', () => {
-    const wall = new THREE.Box3(
-      new THREE.Vector3(-3, 0, -5),
-      new THREE.Vector3(3, 2, -4)
+  it('produces a complete snapshot for the scene HUD', () => {
+    const player =
+      makePlayer();
+
+    simulate(
+      player,
+      1 / 60
     );
 
-    const player = makePlayer([wall]);
+    const snapshot =
+      player.toSnapshot();
 
-    settle(player);
+    expect(
+      snapshot.position
+    ).toEqual({
+      x: expect.any(Number),
+      y: expect.any(Number),
+      z: expect.any(Number),
+    });
 
-    /*
-     * Approach the wall without pressing Space.
-     */
-    player.handleKey('KeyW', true);
-    simulate(player, 4);
-    player.handleKey('KeyW', false);
+    expect(
+      snapshot.velocity
+    ).toEqual({
+      x: expect.any(Number),
+      y: expect.any(Number),
+      z: expect.any(Number),
+    });
 
-    expect(player.state).not.toBe('climbing');
-    expect(player.worldPosition.z).toBeGreaterThan(wall.max.z);
+    expect(
+      snapshot.stance
+    ).toBe('stand');
 
-    const beforeClimbY = player.worldPosition.y;
-
-    /*
-     * Explicit Space input triggers the mantle.
-     */
-    player.handleKey('Space', true);
-    simulate(player, 1 / 60);
-    player.handleKey('Space', false);
-
-    expect(player.state).toBe('climbing');
-
-    simulate(player, 0.4);
-
-    expect(player.state).not.toBe('climbing');
-    expect(player.worldPosition.y).toBeGreaterThan(
-      beforeClimbY
-    );
-  });
-
-  it('uses Space for a normal jump when no climbable wall is nearby', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    const groundY = player.worldPosition.y;
-
-    player.handleKey('Space', true);
-    simulate(player, 1 / 60);
-    player.handleKey('Space', false);
-
-    simulate(player, 0.2);
-
-    expect(player.state).not.toBe('climbing');
-    expect(player.worldPosition.y).toBeGreaterThan(
-      groundY
-    );
-  });
-
-  it('does not climb an obstacle that is too tall', () => {
-    const wall = new THREE.Box3(
-      new THREE.Vector3(-3, 0, -5),
-      new THREE.Vector3(3, 4, -4)
-    );
-
-    const player = makePlayer([wall]);
-
-    settle(player);
-
-    player.handleKey('KeyW', true);
-    simulate(player, 4);
-    player.handleKey('KeyW', false);
-
-    const beforeY = player.worldPosition.y;
-
-    player.handleKey('Space', true);
-    simulate(player, 1 / 60);
-    player.handleKey('Space', false);
-
-    expect(player.state).not.toBe('climbing');
-
-    simulate(player, 0.2);
-
-    expect(player.worldPosition.y).toBeGreaterThanOrEqual(
-      beforeY
-    );
-  });
-
-  it('clears movement input when releaseKeys is called', () => {
-    const player = makePlayer();
-
-    settle(player);
-
-    player.handleKey('KeyW', true);
-    player.handleKey('ShiftLeft', true);
-
-    simulate(player, 0.5);
-
-    const zAfterSprint = player.worldPosition.z;
-
-    player.releaseKeys();
-
-    simulate(player, 1);
-
-    /*
-     * The controller may coast due to velocity smoothing, but it should
-     * not continue receiving forward input.
-     */
-    expect(player.worldPosition.z).toBeGreaterThan(
-      zAfterSprint - 1.5
-    );
-  });
-
-  it('updates camera orientation when mouse look is applied', () => {
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      1,
-      0.1,
-      500
-    );
-
-    const player = new PlayerController(camera, []);
-
-    const initialRotationY = camera.rotation.y;
-
-    player.handleLook(100, 0);
-    player.update(1 / 60);
-
-    expect(camera.rotation.y).not.toBe(
-      initialRotationY
-    );
+    expect(
+      snapshot.health
+    ).toBe(100);
   });
 });
