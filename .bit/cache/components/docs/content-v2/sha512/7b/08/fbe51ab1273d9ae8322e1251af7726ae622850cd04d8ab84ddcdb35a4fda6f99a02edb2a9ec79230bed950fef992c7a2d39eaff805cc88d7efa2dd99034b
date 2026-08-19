@@ -1,0 +1,1 @@
+[{"name":"","description":"A read-only snapshot of the player's movement state, safe to pass to\nReact for HUD and debug rendering.","args":[],"returns":{},"access":"public","examples":[],"render":"","properties":[],"static":false,"filePath":"types.ts"}]

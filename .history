@@ -1,2 +1,26 @@
 git
 git init
+git add .
+git commit -m "Initial commit"
+git config --global user.email "tuneszkiiii@gmail.com"
+git config --global user.name "tuneszkii"
+branch -M main
+git branch -M main
+echo "# 3D-Game" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/tuneszkii/3D-Game.git
+git push -u origin main
+git remote -v
+save "Testing
+"
+which save
+sudo nano /usr/local/bin/save
+mkdir -p ~/.local/bin
+nano ~/.local/bin/save
+chmod +x ~/.local/bin/save
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+which save

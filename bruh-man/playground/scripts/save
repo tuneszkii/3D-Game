@@ -1,0 +1,32 @@
+#!/bin/bash
+
+MESSAGE="$*"
+
+if [ -z "$MESSAGE" ]; then
+  echo 'Usage: save "your commit message"'
+  exit 1
+fi
+
+cd "$(git rev-parse --show-toplevel)" || exit 1
+
+if [ -z "$(git status --porcelain)" ]; then
+  echo "Nothing to save."
+  exit 0
+fi
+
+echo "Adding changes..."
+git add .
+
+echo "Committing..."
+if ! git commit -m "$MESSAGE"; then
+  echo "Commit failed."
+  exit 1
+fi
+
+echo "Pushing to GitHub..."
+if ! git push; then
+  echo "Push failed."
+  exit 1
+fi
+
+echo "✓ Saved to GitHub: $MESSAGE"

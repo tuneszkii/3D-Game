@@ -52,24 +52,32 @@ describe('PlayerController', () => {
     expect(player.worldPosition.z).toBeGreaterThan(wall.max.z);
   });
 
-  it('lands on top of a platform when jumping onto it instead of falling through', () => {
-    // A tall platform placed just ahead, similar to a staircase step.
-    const platform = new THREE.Box3(
-      new THREE.Vector3(-2, 0, -14),
-      new THREE.Vector3(2, 4.4, -10)
+  it('lands on the next staircase step instead of falling through to the ground', () => {
+    // Mimics two adjacent staircase steps: the player starts on the lower
+    // one (its footprint includes the spawn point) and must hop a small
+    // gap onto the next, slightly taller step.
+    const lowerStep = new THREE.Box3(
+      new THREE.Vector3(-3, 0, 15),
+      new THREE.Vector3(3, 1.7, 30)
     );
-    const player = makePlayer([platform]);
+    const upperStep = new THREE.Box3(
+      new THREE.Vector3(-3, 0, 7),
+      new THREE.Vector3(3, 2.6, 14)
+    );
+    const player = makePlayer([lowerStep, upperStep]);
+
+    // First frame resolves the player onto the lower step it spawns on.
+    simulate(player, 1 / 60);
+    expect(player.grounded).toBe(true);
 
     player.handleKey('KeyW', true);
     player.handleKey('Space', true);
-    // Run towards the platform and jump onto it mid-approach.
-    simulate(player, 0.4);
-    player.handleKey('Space', false);
-    simulate(player, 2.5);
+    simulate(player, 1.6);
     player.handleKey('KeyW', false);
-    simulate(player, 0.5);
+    player.handleKey('Space', false);
+    simulate(player, 1.5);
 
-    expect(player.worldPosition.y).toBeCloseTo(platform.max.y + 1.7, 1);
     expect(player.grounded).toBe(true);
+    expect(player.worldPosition.y).toBeCloseTo(upperStep.max.y + 1.7, 1);
   });
 });
