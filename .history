@@ -24,3 +24,19 @@ chmod +x ~/.local/bin/save
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 which save
+save "Testing"
+bit run 3d-playground --port 5173
+save "Movement"
+bit run playground --port 5173
+save "test"
+bit run playground --port 5173
+save "New movement"
+mkdir -p ~/.local/bin
+nano ~/.local/bin/save
+chmod +x ~/.local/bin/save
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+which save
+save "New movement"
+git config --global user.email "tuneszkiiii@gmail.com"
+git config --global user.name "tuneszkii"

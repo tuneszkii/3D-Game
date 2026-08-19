@@ -140,6 +140,75 @@
   color: rgba(232, 236, 255, 0.45);
   pointer-events: none;
   white-space: nowrap;
+  text-align: center;
+  max-width: 90vw;
+}
+
+.healthBar {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(127, 155, 255, 0.2);
+  background: rgba(10, 14, 28, 0.55);
+  pointer-events: none;
+}
+
+.healthLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: rgba(232, 236, 255, 0.6);
+}
+
+.healthTrack {
+  width: 8rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.healthFill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.2s ease, background 0.2s ease;
+}
+
+.healthValue {
+  min-width: 1.6rem;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(232, 236, 255, 0.85);
+}
+
+.debugPanel {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(46, 230, 168, 0.35);
+  background: rgba(8, 20, 18, 0.72);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  color: #b7ffe6;
+  pointer-events: none;
+  min-width: 12rem;
+}
+
+.debugTitle {
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #2ee6a8;
+  margin-bottom: 0.15rem;
 }
 
 @media (max-width: 767px) {
@@ -148,6 +217,13 @@
     padding: 0.5rem 0.7rem;
   }
   .hint {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+  }
+  .healthTrack {
+    width: 5.5rem;
+  }
+  .debugPanel {
+    font-size: 0.65rem;
+    min-width: 9rem;
   }
 }

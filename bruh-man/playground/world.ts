@@ -112,12 +112,14 @@ export function createWorld(): World {
     addBox(scene, colliders, [2.2, 0.5, 2.2], [x, y, z], 0x2ee6a8);
   });
 
-  // Walls forming a bounded arena.
+  // Boundary walls: taller than the max mantle reach so the arena stays
+  // sealed (a wall short enough to mantle would let players climb out).
   const half = 40;
-  addBox(scene, colliders, [half * 2, 2.5, 1], [0, 1.25, -half], 0x5a67d8);
-  addBox(scene, colliders, [half * 2, 2.5, 1], [0, 1.25, half], 0x5a67d8);
-  addBox(scene, colliders, [1, 2.5, half * 2], [-half, 1.25, 0], 0x5a67d8);
-  addBox(scene, colliders, [1, 2.5, half * 2], [half, 1.25, 0], 0x5a67d8);
+  const wallHeight = 6;
+  addBox(scene, colliders, [half * 2, wallHeight, 1], [0, wallHeight / 2, -half], 0x5a67d8);
+  addBox(scene, colliders, [half * 2, wallHeight, 1], [0, wallHeight / 2, half], 0x5a67d8);
+  addBox(scene, colliders, [1, wallHeight, half * 2], [-half, wallHeight / 2, 0], 0x5a67d8);
+  addBox(scene, colliders, [1, wallHeight, half * 2], [half, wallHeight / 2, 0], 0x5a67d8);
 
   return { scene, colliders, groundY: 0 };
 }

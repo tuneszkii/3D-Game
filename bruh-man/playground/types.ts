@@ -10,6 +10,7 @@ export type InputState = {
   jump: boolean;
   sprint: boolean;
   crouch: boolean;
+  prone: boolean;
 };
 
 /**

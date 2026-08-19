@@ -2,20 +2,47 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { createWorld } from './world.js';
 import { PlayerController } from './player-controller.js';
+import type { PlayerSnapshot } from './types.js';
 import styles from './scene.module.css';
 
+const DEBUG_COLOR = 0x2ee6a8;
+
+/** Builds a wireframe box helper group visualizing every world collider. */
+function buildColliderHelpers(colliders: readonly THREE.Box3[]): THREE.Group {
+  const group = new THREE.Group();
+  colliders.forEach((box) => {
+    const helper = new THREE.Box3Helper(box, new THREE.Color(DEBUG_COLOR));
+    group.add(helper);
+  });
+  return group;
+}
+
+const emptySnapshot: PlayerSnapshot = {
+  position: { x: 0, y: 0, z: 0 },
+  velocity: { x: 0, y: 0, z: 0 },
+  speed: 0,
+  stance: 'stand',
+  sliding: false,
+  climbing: false,
+  grounded: false,
+  sprinting: false,
+  health: 100,
+  debug: false,
+};
+
 /**
- * A first-person 3D playground.
+ * A first-person 3D playground with a Call of Duty-style movement kit.
  *
- * Controls: WASD to move, Space to jump, mouse to look around.
- * Click the canvas to capture the pointer, press Esc to release it.
+ * Controls: WASD move, Shift sprint, Ctrl crouch (hold while sprinting to
+ * slide — release Ctrl or jump mid-slide to slide-cancel), Z prone,
+ * Space jump, mouse look, Ctrl+Shift+B toggles the debug overlay.
  */
 export function Scene() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [locked, setLocked] = useState(false);
   const [fps, setFps] = useState(0);
-  const [pos, setPos] = useState({ x: 0, y: 0, z: 0 });
+  const [snapshot, setSnapshot] = useState<PlayerSnapshot>(emptySnapshot);
 
   const requestLock = useCallback(() => {
     canvasRef.current?.requestPointerLock();
@@ -39,6 +66,10 @@ export function Scene() {
     const { scene, colliders } = createWorld();
     const player = new PlayerController(camera, colliders);
 
+    const debugGroup = buildColliderHelpers(player.worldColliders);
+    debugGroup.visible = false;
+    scene.add(debugGroup);
+
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = container;
       renderer.setSize(w, h, false);
@@ -52,7 +83,9 @@ export function Scene() {
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.code === 'Space') e.preventDefault();
-      player.handleKey(e.code, true);
+      if (e.ctrlKey && e.shiftKey && e.code === 'KeyB') e.preventDefault();
+      const toggledDebug = player.handleKey(e.code, true);
+      if (toggledDebug) debugGroup.visible = player.debugEnabled;
     };
     const onKeyUp = (e: KeyboardEvent) => player.handleKey(e.code, false);
     const onMouseMove = (e: MouseEvent) => {
@@ -83,10 +116,9 @@ export function Scene() {
 
       frames += 1;
       acc += delta;
-      if (acc >= 0.5) {
+      if (acc >= 0.25) {
         setFps(Math.round(frames / acc));
-        const p = player.worldPosition;
-        setPos({ x: p.x, y: p.y, z: p.z });
+        setSnapshot(player.toSnapshot());
         frames = 0;
         acc = 0;
       }
@@ -111,19 +143,70 @@ export function Scene() {
     };
   }, []);
 
+  const stanceLabel =
+    snapshot.stance === 'stand' ? 'Standing' : snapshot.stance === 'crouch' ? 'Crouching' : 'Prone';
+  const modeLabel = snapshot.climbing
+    ? 'Climbing'
+    : snapshot.sliding
+      ? 'Sliding'
+      : snapshot.sprinting
+        ? 'Sprinting'
+        : stanceLabel;
+
   return (
     <div className={styles.root} ref={containerRef}>
       <canvas className={styles.canvas} ref={canvasRef} />
       {locked && (
         <>
           <div className={styles.crosshair} />
+
+          <div className={styles.healthBar}>
+            <div className={styles.healthLabel}>HP</div>
+            <div className={styles.healthTrack}>
+              <div
+                className={styles.healthFill}
+                style={{
+                  width: `${snapshot.health}%`,
+                  background:
+                    snapshot.health > 50
+                      ? '#2ee6a8'
+                      : snapshot.health > 20
+                        ? '#ffc857'
+                        : '#ff6b6b',
+                }}
+              />
+            </div>
+            <div className={styles.healthValue}>{Math.round(snapshot.health)}</div>
+          </div>
+
           <div className={styles.hud}>
             <span>{fps} FPS</span>
             <span>
-              x {pos.x.toFixed(1)} · y {pos.y.toFixed(1)} · z {pos.z.toFixed(1)}
+              x {snapshot.position.x.toFixed(1)} · y {snapshot.position.y.toFixed(1)} · z{' '}
+              {snapshot.position.z.toFixed(1)}
             </span>
+            <span>{modeLabel}</span>
           </div>
-          <div className={styles.hint}>WASD move · Space jump · Esc release cursor</div>
+
+          {snapshot.debug && (
+            <div className={styles.debugPanel}>
+              <div className={styles.debugTitle}>DEBUG</div>
+              <div>pos {`${snapshot.position.x.toFixed(2)}, ${snapshot.position.y.toFixed(2)}, ${snapshot.position.z.toFixed(2)}`}</div>
+              <div>vel {`${snapshot.velocity.x.toFixed(2)}, ${snapshot.velocity.y.toFixed(2)}, ${snapshot.velocity.z.toFixed(2)}`}</div>
+              <div>speed {snapshot.speed.toFixed(2)} m/s</div>
+              <div>stance {snapshot.stance}</div>
+              <div>grounded {String(snapshot.grounded)}</div>
+              <div>sliding {String(snapshot.sliding)}</div>
+              <div>climbing {String(snapshot.climbing)}</div>
+              <div>health {snapshot.health.toFixed(0)}</div>
+              <div>fps {fps}</div>
+            </div>
+          )}
+
+          <div className={styles.hint}>
+            WASD move · Shift sprint · Ctrl crouch/slide · Z prone · Space jump · Ctrl+Shift+B
+            debug
+          </div>
         </>
       )}
       {!locked && (
@@ -131,7 +214,7 @@ export function Scene() {
           <div className={styles.panel}>
             <h1 className={styles.title}>3D Playground</h1>
             <p className={styles.subtitle}>
-              Run around, climb the steps and jump between the blocks.
+              Sprint, slide, crouch and mantle your way across the arena.
             </p>
             <div className={styles.keys}>
               <span className={styles.keyRow}>
@@ -142,12 +225,28 @@ export function Scene() {
                 move
               </span>
               <span className={styles.keyRow}>
+                <span className={styles.key}>Shift</span>
+                sprint
+              </span>
+              <span className={styles.keyRow}>
+                <span className={styles.key}>Ctrl</span>
+                crouch / slide
+              </span>
+              <span className={styles.keyRow}>
+                <span className={styles.key}>Z</span>
+                prone
+              </span>
+              <span className={styles.keyRow}>
                 <span className={styles.key}>Space</span>
                 jump
               </span>
               <span className={styles.keyRow}>
                 <span className={styles.key}>Mouse</span>
                 look
+              </span>
+              <span className={styles.keyRow}>
+                <span className={styles.key}>Ctrl+Shift+B</span>
+                debug
               </span>
             </div>
             <button type="button" className={styles.cta} onClick={requestLock}>

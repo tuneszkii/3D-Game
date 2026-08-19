@@ -1,0 +1,1 @@
+[{"name":"","description":"Resolves the player's initial gravity/ground state.","args":[],"returns":{},"access":"public","examples":[],"render":"","properties":[],"static":false,"filePath":"player-controller.spec.ts"}]
