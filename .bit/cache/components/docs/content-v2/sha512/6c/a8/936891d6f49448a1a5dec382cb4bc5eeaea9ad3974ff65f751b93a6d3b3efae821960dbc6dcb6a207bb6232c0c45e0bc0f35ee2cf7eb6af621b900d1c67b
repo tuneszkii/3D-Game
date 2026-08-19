@@ -1,0 +1,1 @@
+[{"name":"","description":"A first-person 3D playground.\n\nControls: WASD to move, Space to jump, mouse to look around.\nClick the canvas to capture the pointer, press Esc to release it.","args":[],"returns":{},"access":"public","examples":[],"render":"","properties":[],"static":false,"filePath":"scene.tsx"}]

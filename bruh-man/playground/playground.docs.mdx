@@ -1,0 +1,53 @@
+---
+title: 3D Playground
+description: 'A first-person 3D playground — WASD to move, Space to jump, mouse to look around.'
+labels: ['app', 'react', '3d', 'three.js', 'game']
+---
+
+A browser-based first-person 3D sandbox built on [three.js](https://threejs.org). Click the
+canvas to capture the pointer, then walk around an arena of platforms, pillars and stepping
+blocks. Press `Esc` to release the cursor.
+
+## Controls
+
+| Input | Action |
+| --- | --- |
+| `W` `A` `S` `D` | Move relative to where you are looking |
+| `Space` | Jump (only while grounded) |
+| Mouse | Look around (yaw + pitch, pitch clamped to ±90°) |
+| `Esc` | Release the pointer lock |
+
+## Run the application
+
+```bash
+bit run playground
+```
+
+## Rendering just the scene
+
+The playground is composed of a single `Scene` component that owns the renderer, the world and
+the player controller. Drop it into any full-height container:
+
+```tsx
+import { Scene } from '@tuneszkiiii/bruh-man.playground';
+
+export function Game() {
+  return <Scene />;
+}
+```
+
+## Extending the world
+
+Level geometry lives in `world.ts`. Every box added there is registered as an axis-aligned
+collider, so new platforms are automatically solid and jumpable:
+
+```ts
+addBox(scene, colliders, [4, 2, 4], [10, 1, -8], 0x2ee6a8);
+```
+
+## Movement model
+
+`PlayerController` runs a small kinematic simulation each frame — horizontal velocity is eased
+towards the input direction (with reduced control while airborne), gravity is integrated
+continuously, and movement is resolved one axis at a time against the world's AABBs so the
+player slides along walls instead of sticking to them.

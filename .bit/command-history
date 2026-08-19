@@ -1,0 +1,32 @@
+2026-08-19T15:54:26.722Z 355 start -p 3000 --use-source, started
+2026-08-19T15:54:28.649Z 421 templates, started
+2026-08-19T15:54:28.742Z 421 templates, succeeded
+2026-08-19T15:54:31.133Z 498 status --json, started
+2026-08-19T15:54:31.165Z 498 status --json, succeeded
+2026-08-19T15:54:31.349Z 521 create react-app playground --scope tuneszkiiii.bruh-man, started
+2026-08-19T15:54:34.807Z 562 ls --json, started
+2026-08-19T15:54:34.817Z 581 mini-status --json, started
+2026-08-19T15:54:34.869Z 562 ls --json, succeeded
+2026-08-19T15:54:34.870Z 581 mini-status --json, succeeded
+2026-08-19T15:55:01.208Z 521 create react-app playground --scope tuneszkiiii.bruh-man, succeeded
+2026-08-19T15:55:17.707Z 867 install three @types/three, started
+2026-08-19T15:55:20.425Z 923 mini-status --json, started
+2026-08-19T15:55:20.480Z 923 mini-status --json, succeeded
+2026-08-19T15:55:20.506Z 922 ls --json, started
+2026-08-19T15:55:20.566Z 922 ls --json, succeeded
+2026-08-19T15:55:25.802Z 867 install three @types/three, succeeded
+2026-08-19T15:58:49.430Z 1547 run playground -p 3001, started
+2026-08-19T16:05:12.414Z 2627 validate, started
+2026-08-19T16:05:38.927Z 2627 validate, failed
+2026-08-19T16:05:47.541Z 2900 validate, started
+2026-08-19T16:06:11.550Z 2900 validate, succeeded
+2026-08-19T16:07:59.153Z 3216 get-deps tuneszkiiii.bruh-man/playground --json -c, started
+2026-08-19T16:08:03.931Z 3216 get-deps tuneszkiiii.bruh-man/playground --json -c, succeeded
+2026-08-19T16:10:36.317Z 3356 status --json, started
+2026-08-19T16:10:41.177Z 3356 status --json, succeeded
+2026-08-19T16:10:49.081Z 3508 server --compile, started
+2026-08-19T16:14:09.861Z 3914 server --compile, started
+2026-08-19T16:16:38.515Z 4437 validate, started
+2026-08-19T16:17:00.963Z 4437 validate, succeeded
+2026-08-19T16:18:28.352Z 4837 validate, started
+2026-08-19T16:18:50.189Z 4837 validate, failed

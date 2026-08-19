@@ -1,0 +1,16 @@
+[
+  {
+    "id": {
+      "scope": "bitdev.react",
+      "name": "react-env"
+    },
+    "head": "ba339945ffe19cddefc708b762c8e48d2872a82f"
+  },
+  {
+    "id": {
+      "scope": "bitdev.react",
+      "name": "app-types/vite-react"
+    },
+    "head": "1fe46c1398f400ab1eb45dc8c3b415d1101f7711"
+  }
+]
