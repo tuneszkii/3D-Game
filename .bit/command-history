@@ -99,3 +99,4 @@
 2026-08-19T20:49:32.664Z 5550 mini-status --json, succeeded
 2026-08-19T20:49:32.760Z 5573 ls --json, started
 2026-08-19T20:49:32.824Z 5573 ls --json, succeeded
+2026-08-19T20:50:12.000Z 5756 run playground --port 5173, started

@@ -42,3 +42,5 @@ git config --global user.email "tuneszkiiii@gmail.com"
 git config --global user.name "tuneszkii"
 save "Movement update"
 bit run playground --port 5173
+save "Movement updates"
+bit run playground --port 5173
