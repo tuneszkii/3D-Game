@@ -44,3 +44,7 @@ save "Movement update"
 bit run playground --port 5173
 save "Movement updates"
 bit run playground --port 5173
+git reset --hard origin/main
+git clean -fd
+git status
+echo "test" >> README.md
