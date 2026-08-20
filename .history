@@ -48,3 +48,5 @@ git reset --hard origin/main
 git clean -fd
 git status
 echo "test" >> README.md
+save "Test save command"
+git push --set-upstream origin main
