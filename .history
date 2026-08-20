@@ -76,3 +76,6 @@ bit run playground --port 5173
 save "More movement upd"
 save "more movement bru"
 bit run playground --port 5173
+save "Movement upd
+"
+bit run playground --port 5173

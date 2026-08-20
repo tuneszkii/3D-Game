@@ -1891,25 +1891,25 @@ private findMantleTarget():
     return true;
   }
 
-  private canTraverseMantle(
+private canTraverseMantle(
   start: THREE.Vector3,
   target: THREE.Vector3,
   height: number,
   ignored: Collider
 ): boolean {
-  const steps = 12;
+  const steps = 16;
+
   const sample =
     new THREE.Vector3();
 
-  for (
-    let i = 1;
-    i <= steps;
-    i++
-  ) {
-    const t = i / steps;
+  for (let i = 1; i <= steps; i++) {
+    const progress =
+      i / steps;
 
     const eased =
-      t * t * (3 - 2 * t);
+      progress *
+      progress *
+      (3 - 2 * progress);
 
     sample.lerpVectors(
       start,
@@ -1918,8 +1918,9 @@ private findMantleTarget():
     );
 
     const arc =
-      Math.sin(Math.PI * t) *
-      0.18;
+      Math.sin(
+        Math.PI * progress
+      ) * 0.18;
 
     sample.y += arc;
 
