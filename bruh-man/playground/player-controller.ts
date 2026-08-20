@@ -47,7 +47,7 @@ const STANCE_TRANSITION_SPEED = 14;
  */
 const CLIMB_DISTANCE = 1.6;
 const CLIMB_MIN_HEIGHT = 0.45;
-const CLIMB_MAX_HEIGHT = 1.8;
+const CLIMB_MAX_HEIGHT = 4;
 
 /**
  * Mantling speed is distance based.
@@ -118,6 +118,13 @@ type CameraEffects = {
   mantleKick: number;
 
   previousState: MovementState;
+};
+
+type MantleTarget = {
+  collider: Collider;
+  topY: number;
+  distance: number;
+  target: THREE.Vector3;
 };
 
 export class PlayerController {
@@ -263,6 +270,10 @@ export class PlayerController {
     );
   }
 
+  get canMantle(): boolean {
+    return this.findMantleTarget() !== undefined;
+  }
+
   get height(): number {
     return this.currentHeight;
   }
@@ -321,6 +332,8 @@ export class PlayerController {
         'climbing',
 
       grounded: this.onGround,
+
+      canMantle: this.canMantle,
 
       sprinting:
         this.movementState ===
@@ -1265,27 +1278,10 @@ export class PlayerController {
   // Mantling / climbing
   // ---------------------------------------------------------------------------
 
-  /**
-   * Finds a climbable collider directly in front of
-   * the player.
-   *
-   * Crucially, this does NOT require the player to be
-   * moving into the wall.
-   */
-  private tryStartClimb(): boolean {
-    if (!this.onGround) {
-      return false;
-    }
 
-    if (
-      this.movementState ===
-        'sliding' ||
-      this.movementState ===
-        'prone'
-    ) {
-      return false;
-    }
-
+private findMantleTarget():
+  MantleTarget | undefined {
+   
     const direction =
       new THREE.Vector3(
         0,
@@ -1608,76 +1604,99 @@ export class PlayerController {
           collider,
           topY,
           distance,
-          target,
+          target
         };
       }
     }
 
     if (!best) {
-      return false;
+      return undefined;
     }
 
-    /**
-     * We only reject the mantle if the final
-     * position is genuinely occupied by another
-     * collider.
-     *
-     * The collider being climbed is explicitly
-     * ignored for this destination check.
-     */
-    if (
-      !this.canOccupyAtIgnoring(
-        best.target,
-        PLAYER_HEIGHT,
-        best.collider
-      )
-    ) {
-      return false;
-    }
-
-    this.movementState =
-      'climbing';
-
-    this.climbStartPosition.copy(
-      this.position
-    );
-
-    this.climbTargetPosition.copy(
-      best.target
-    );
-
-    this.climbDirection.copy(
-      direction
-    );
-
-    this.climbDuration =
-      THREE.MathUtils.clamp(
-        best.distance /
-          CLIMB_SPEED,
-        MIN_CLIMB_DURATION,
-        MAX_CLIMB_DURATION
-      );
-
-    this.climbTimer =
-      this.climbDuration;
-
-    this.velocity.set(
-      0,
-      0,
-      0
-    );
-
-    this.targetHeight =
-      PLAYER_HEIGHT;
-
-    this.currentHeight =
-      PLAYER_HEIGHT;
-
-    this.cameraEffects.mantleKick =
-      1;
-
-    return true;
+    return best;
   }
+
+  /**
+   * Finds a climbable collider directly in front of
+   * the player.
+   *
+   * Crucially, this does NOT require the player to be
+   * moving into the wall.
+   */
+  private tryStartClimb(): boolean {
+  const best = this.findMantleTarget();
+
+  if (!best) {
+    return false;
+  }
+
+  const direction = new THREE.Vector3(
+    this.input.right ? 1 : 0,
+    0,
+    this.input.forward ? -1 : 0,
+  );
+
+  /**
+   * We only reject the mantle if the final
+   * position is genuinely occupied by another
+   * collider.
+   *
+   * The collider being climbed is explicitly
+   * ignored for this destination check.
+   */
+  if (
+    !this.canOccupyAtIgnoring(
+      best.target,
+      PLAYER_HEIGHT,
+      best.collider
+    )
+  ) {
+    return false;
+  }
+
+  this.movementState =
+    'climbing';
+
+  this.climbStartPosition.copy(
+    this.position
+  );
+
+  this.climbTargetPosition.copy(
+    best.target
+  );
+
+  this.climbDirection.copy(
+    direction
+  );
+
+  this.climbDuration =
+    THREE.MathUtils.clamp(
+      best.distance /
+        CLIMB_SPEED,
+      MIN_CLIMB_DURATION,
+      MAX_CLIMB_DURATION
+    );
+
+  this.climbTimer =
+    this.climbDuration;
+
+  this.velocity.set(
+    0,
+    0,
+    0
+  );
+
+  this.targetHeight =
+    PLAYER_HEIGHT;
+
+  this.currentHeight =
+    PLAYER_HEIGHT;
+
+  this.cameraEffects.mantleKick =
+    1;
+
+  return true;
+}
 
   private updateClimb(
     step: number

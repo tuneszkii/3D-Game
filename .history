@@ -62,3 +62,8 @@ echo 'export PATH="/home/user/.npm-global/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 cd ~/playground
 bit run playground --port 5173
+save "Movement updates
+"
+bit run playground --port 5173
+bit check-types
+bit run playground --port 5173

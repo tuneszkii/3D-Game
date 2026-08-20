@@ -70,6 +70,8 @@ const emptySnapshot:
     health: 100,
 
     debug: false,
+
+    canMantle: false
   };
 
 export function Scene() {
@@ -452,6 +454,30 @@ export function Scene() {
               styles.crosshair
             }
           />
+
+                    {snapshot.canMantle && (
+            <div
+              className={
+                styles.mantlePrompt
+              }
+            >
+              <span
+                className={
+                  styles.mantleKey
+                }
+              >
+                SPACE
+              </span>
+
+              <span
+                className={
+                  styles.mantleLabel
+                }
+              >
+                MANTLE
+              </span>
+            </div>
+          )}
 
           <div
             className={

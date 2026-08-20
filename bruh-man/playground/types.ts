@@ -20,15 +20,13 @@ export type InputState = {
 export type PlayerSnapshot = {
   position: { x: number; y: number; z: number };
   velocity: { x: number; y: number; z: number };
-  /** Horizontal speed magnitude, in meters/second. */
   speed: number;
   stance: Stance;
   sliding: boolean;
   climbing: boolean;
   grounded: boolean;
   sprinting: boolean;
-  /** Current health, 0-100. */
+  canMantle: boolean;
   health: number;
-  /** Whether the debug overlay is currently toggled on. */
   debug: boolean;
 };
