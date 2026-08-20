@@ -1884,80 +1884,161 @@ private findMantleTarget():
     return true;
   }
 
-  private moveAxis(
-    axis: 'x' | 'y' | 'z',
-    amount: number
-  ): void {
-    if (amount === 0) {
-      return;
-    }
+private moveAxis(
+   axis: 'x' | 'y' | 'z',
+  amount: number
+): void {
+  if (amount === 0) {
+    return;
+  }
 
-    this.position[axis] +=
-      amount;
+  this.position[axis] += amount;
+  this.updateBox();
 
-    this.updateBox();
+  if (axis === 'y') {
+    if (amount < 0) {
+      let highestGroundY =
+        -Infinity;
 
-    for (
-      const box of
-        this.colliders
-    ) {
-      if (
-        !box.intersectsBox(
-          this.playerBox
-        )
+      for (
+        const box of this.colliders
       ) {
+        const horizontalOverlap =
+          this.playerBox.max.x >
+            box.min.x &&
+          this.playerBox.min.x <
+            box.max.x &&
+          this.playerBox.max.z >
+            box.min.z &&
+          this.playerBox.min.z <
+            box.max.z;
+
+        if (!horizontalOverlap) {
+          continue;
+        }
+
+        if (
+          this.playerBox.min.y <=
+          box.max.y + COLLISION_EPSILON
+        ) {
+          highestGroundY =
+            Math.max(
+              highestGroundY,
+              box.max.y
+            );
+        }
+      }
+
+      if (
+        highestGroundY !==
+        -Infinity
+      ) {
+        this.position.y =
+          highestGroundY +
+          this.currentHeight +
+          COLLISION_EPSILON;
+
+        this.velocity.y = 0;
+         this.onGround = true;
+
+          this.updateBox();
+         return;
+        }
+     } else {
+       for (
+         const box of this.colliders
+       ) {
+          const horizontalOverlap =
+           this.playerBox.max.x >
+              box.min.x &&
+           this.playerBox.min.x <
+             box.max.x &&
+            this.playerBox.max.z >
+             box.min.z &&
+            this.playerBox.min.z <
+              box.max.z;
+
+         if (!horizontalOverlap) {
+            continue;
+          }
+
+          if (
+           this.playerBox.max.y >=
+            box.min.y -
+              COLLISION_EPSILON
+         ) {
+            this.position.y =
+             box.min.y -
+             COLLISION_EPSILON;
+
+           this.velocity.y = 0;
+
+           this.updateBox();
+           return;
+          }
+       }
+     }
+
+      return;
+   }
+
+   for (
+      const box of this.colliders
+   ) {
+     if (
+       !this.playerBox.intersectsBox(
+          box
+       )
+     ) {
         continue;
       }
 
-      if (axis === 'y') {
-        if (amount < 0) {
-          this.position.y =
-            box.max.y +
-            this.currentHeight +
-            0.01;
-
-          this.onGround = true;
+     if (axis === 'x') {
+        if (amount > 0) {
+          this.position.x =
+            box.min.x -
+            PLAYER_RADIUS -
+           COLLISION_EPSILON;
         } else {
-          this.position.y =
-            box.min.y -
+         this.position.x =
+           box.max.x +
+            PLAYER_RADIUS +
+           COLLISION_EPSILON;
+        }
+
+        this.velocity.x = 0;
+      } else {
+        if (amount > 0) {
+          this.position.z =
+            box.min.z -
+            PLAYER_RADIUS -
+            COLLISION_EPSILON;
+        } else {
+          this.position.z =
+           box.max.z +
+            PLAYER_RADIUS +
             COLLISION_EPSILON;
         }
 
-        this.velocity.y = 0;
-      } else if (
-        amount > 0
-      ) {
-        this.position[axis] =
-          box.min[axis] -
-          PLAYER_RADIUS -
-          COLLISION_EPSILON;
-
-        this.velocity[axis] = 0;
-      } else {
-        this.position[axis] =
-          box.max[axis] +
-          PLAYER_RADIUS +
-          COLLISION_EPSILON;
-
-        this.velocity[axis] = 0;
+        this.velocity.z = 0;
       }
 
       this.updateBox();
+      return;
     }
   }
 
   private resolveGround(): void {
-    if (
+   if (
       this.position.y <
-      this.currentHeight
-    ) {
+     this.currentHeight
+   ) {
       this.position.y =
         this.currentHeight;
 
       this.velocity.y = 0;
-
-      this.onGround = true;
-    }
+     this.onGround = true;
+   }
   }
 
   private updateBox(): void {
