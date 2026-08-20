@@ -10,7 +10,7 @@ const PRONE_HEIGHT = 0.55;
 
 const MOVE_SPEED = 7.5;
 const SPRINT_SPEED = 10.0;
-const TACTICAL_SPRINT_SPEED = 80.0;
+const TACTICAL_SPRINT_SPEED = 12.5;
 
 const SLIDE_START_SPEED = 13.5;
 const SLIDE_MAX_SPEED = 15.0;
@@ -34,8 +34,8 @@ const MAX_PITCH = Math.PI / 2 - 0.05;
  *
  * The sprint key remains held after the second press.
  */
-const SPRINT_DOUBLE_TAP_WINDOW = 1;
-const TACTICAL_SPRINT_DURATION = 4;
+const SPRINT_DOUBLE_TAP_WINDOW = 0.3;
+const TACTICAL_SPRINT_DURATION = 1.85;
 
 const STANCE_TRANSITION_SPEED = 14;
 
