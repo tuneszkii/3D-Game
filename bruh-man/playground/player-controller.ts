@@ -1612,6 +1612,111 @@ private findMantleTarget():
     return best;
   }
 
+  private hasMantleClearance(
+  target: THREE.Vector3,
+  ignored: Collider
+): boolean {
+  const box =
+    new THREE.Box3();
+
+  /**
+   * Check the player's complete standing
+   * volume at the mantle destination.
+   */
+  box.min.set(
+    target.x - PLAYER_RADIUS,
+    target.y - PLAYER_HEIGHT,
+    target.z - PLAYER_RADIUS
+  );
+
+  box.max.set(
+    target.x + PLAYER_RADIUS,
+    target.y,
+    target.z + PLAYER_RADIUS
+  );
+
+  for (
+    const collider of this.colliders
+  ) {
+    if (collider === ignored) {
+      continue;
+    }
+
+    if (
+      box.intersectsBox(collider)
+    ) {
+      return false;
+    }
+  }
+
+  /**
+   * Also check the space between the current
+   * position and the mantle destination.
+   *
+   * Use more samples than before so thin
+   * overhead objects cannot be skipped.
+   */
+  const samples = 32;
+
+  const sample =
+    new THREE.Vector3();
+
+  for (
+    let i = 0;
+    i <= samples;
+    i++
+  ) {
+    const progress =
+      i / samples;
+
+    const eased =
+      progress *
+      progress *
+      (3 - 2 * progress);
+
+    sample.lerpVectors(
+      this.position,
+      target,
+      eased
+    );
+
+    const arc =
+      Math.sin(
+        Math.PI * progress
+      ) * 0.18;
+
+    sample.y += arc;
+
+    box.min.set(
+      sample.x - PLAYER_RADIUS,
+      sample.y - PLAYER_HEIGHT,
+      sample.z - PLAYER_RADIUS
+    );
+
+    box.max.set(
+      sample.x + PLAYER_RADIUS,
+      sample.y,
+      sample.z + PLAYER_RADIUS
+    );
+
+    for (
+      const collider of this.colliders
+    ) {
+      if (collider === ignored) {
+        continue;
+      }
+
+      if (
+        box.intersectsBox(collider)
+      ) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
   /**
    * Finds a climbable collider directly in front of
    * the player.
@@ -1619,26 +1724,29 @@ private findMantleTarget():
    * Crucially, this does NOT require the player to be
    * moving into the wall.
    */
-  private tryStartClimb(): boolean {
-  const best = this.findMantleTarget();
+private tryStartClimb(): boolean {
+  const best =
+    this.findMantleTarget();
 
   if (!best) {
     return false;
   }
 
-  const direction = new THREE.Vector3(
-    this.input.right ? 1 : 0,
-    0,
-    this.input.forward ? -1 : 0,
-  );
+  const direction =
+    new THREE.Vector3(
+      0,
+      0,
+      -1
+    ).applyAxisAngle(
+      this.up,
+      this.yaw
+    );
 
   /**
-   * We only reject the mantle if the final
-   * position is genuinely occupied by another
-   * collider.
+   * Make sure the final mantle position
+   * is not occupied by another collider.
    *
-   * The collider being climbed is explicitly
-   * ignored for this destination check.
+   * The collider being climbed is ignored.
    */
   if (
     !this.canOccupyAtIgnoring(
@@ -1650,11 +1758,27 @@ private findMantleTarget():
     return false;
   }
 
+  /**
+   * Make sure the entire mantle trajectory
+   * is clear.
+   *
+   * This prevents mantling through ceilings
+   * and other objects above the player.
+   */
   if (
-  !this.canTraverseMantle(
-    this.position,
+    !this.canTraverseMantle(
+      this.position,
+      best.target,
+      PLAYER_HEIGHT,
+      best.collider
+    )
+  ) {
+    return false;
+  }
+
+  if (
+  !this.hasMantleClearance(
     best.target,
-    PLAYER_HEIGHT,
     best.collider
   )
 ) {

@@ -1,4 +1,11 @@
-465
+495
+40/home/user/3d-playground/.git/objects/b31787243622584341602 1
+79/home/user/3d-playground/.git/objects/a4/3d9021913ab50cbe109f48159acf996a1762081787243622584341602 0
+40/home/user/3d-playground/.git/objects/a81787243622583341603 1
+79/home/user/3d-playground/.git/objects/24/8a947425e946f391e4f39c67c6912e1b5c57121787243622582341604 0
+40/home/user/3d-playground/.git/objects/681787243622582341604 1
+79/home/user/3d-playground/.git/objects/79/5f32fd95ef817851932abc5d4a30fb69e790a81787243622575341608 0
+79/home/user/3d-playground/.git/objects/86/7b4829f886f14c177f607aa0c1c80bef17ebbb1787243622566341615 0
 79/home/user/3d-playground/.git/objects/34/e83e957fa8b8b2f66d90c9d4991d86deebad7b1787243178715639782 0
 40/home/user/3d-playground/.git/objects/4f1787243178715639782 1
 79/home/user/3d-playground/.git/objects/19/4c953d72d420d08fa719d394e58fe6940906621787243178714639782 0
@@ -17,6 +24,9 @@
 79/home/user/3d-playground/.git/objects/7c/f74f43bc4d80a6beb397d3b71a90666f1a80561787242777674909104 0
 79/home/user/3d-playground/.git/objects/af/1692157ee5b835a62ef9d0a61ff62507603bf91787242777673909105 0
 79/home/user/3d-playground/.git/objects/1e/2c354ca2a76852403f4d2539b579a475efc1021787242777673909105 0
+79/home/user/3d-playground/.git/objects/b3/c246279ac314c8db025723169b2346d37789951787243622584341602 0
+79/home/user/3d-playground/.git/objects/35/e7509c7ced1b5ecaf4f2d27bb2f57cad981c331787243622581341604 0
+79/home/user/3d-playground/.git/objects/8c/4f95ee243fcc2c9ac1d950a43c9bdc0727d79b1787243622575341608 0
 79/home/user/3d-playground/.git/objects/fa/059b172a6a37ff12b686c2b93277bf476d06d01787242777672909105 0
 79/home/user/3d-playground/.git/objects/b5/2ffeb6c22c2e4bff326e0578f8e20b4ec9cf021787242777671909106 0
 40/home/user/3d-playground/.git/objects/061787242389624169642 1
@@ -60,9 +70,11 @@
 40/home/user/3d-playground/.git/objects/c31787241682621644501 1
 79/home/user/3d-playground/.git/objects/5e/f203e987c1449765d970b1173994e617f785db1787241682614644505 0
 40/home/user/3d-playground/.git/objects/5e1787241682614644505 1
+79/home/user/3d-playground/.git/objects/72/e4c6edeccd4c3bccb701ce61c47a4917cab7c71787243622581341604 0
 79/home/user/3d-playground/.git/objects/ed/f418d475ed64bc897461691976a98ecca8143c1787243178717639780 0
 79/home/user/3d-playground/.git/objects/5b/be1715db77e4daa4a95090579fd65b5d6848bb1787242777683909098 0
 79/home/user/3d-playground/.git/objects/63/3476ed97a96f40b1d1e6a3925bb0c467e501b71787241682614644505 0
+79/home/user/3d-playground/.git/objects/d3/11b6490cff23517fd7fc540abcec37247292c91787243622583341603 0
 79/home/user/3d-playground/.git/objects/fb/c819d05324d25ed91c5cc04e3450211bca1b3b1787241682613644506 0
 79/home/user/3d-playground/.git/objects/1f/e6d9cb1099b8eab01b7112ae5b687a385bc9ad1787241682613644506 0
 79/home/user/3d-playground/.git/objects/92/bc8ac07cb065ac61fb7444686e1eb328b308511787241682611644507 0
@@ -75,6 +87,7 @@
 79/home/user/3d-playground/.git/objects/21/06f927cfce08a8a2502d8e5a1dc214d3541cdd1787241682611644507 0
 79/home/user/3d-playground/.git/objects/9a/2ab5fe1d23066b919991186144ee825c640bcc1787243178703639790 0
 79/home/user/3d-playground/.git/objects/6a/a2441bec82365038a9a56b6d1e1e537f86dc021787241682610644508 0
+40/home/user/3d-playground/.git/objects/981787243622565341615 1
 79/home/user/3d-playground/.git/objects/2f/0567e0130eea43ca402bc1dced92054ae2e66b1787241682610644508 0
 79/home/user/3d-playground/.git/objects/ef/f5c5931ffde07721b11991c8957552da0050ce1787241682613644506 0
 40/home/user/3d-playground/.git/objects/ff1787241682610644508 1
@@ -96,6 +109,7 @@
 79/home/user/3d-playground/.git/objects/3f/0b4efffb707fda9fa9a7c4816ed4c279d76b371787241682603644513 0
 40/home/user/3d-playground/.git/objects/7e1787242389622169643 1
 40/home/user/3d-playground/.git/objects/3f1787241682603644513 1
+79/home/user/3d-playground/.git/objects/c7/e30eb7284a62656b59219241d502cc129d3be31787243622583341603 0
 40/home/user/3d-playground/.git/objects/b81787241682602644513 1
 79/home/user/3d-playground/.git/objects/ed/f6e012e27ad44e35813a752f86256e202a488a1787242389621169644 0
 79/home/user/3d-playground/.git/objects/9b/5a3077b91c6717dd0c835d7cf3e377c313bc181787241682602644513 0
@@ -126,6 +140,7 @@
 79/home/user/3d-playground/.git/objects/49/8a197527eb4ce00d220e8d13fbee9c7b9e9e021787242777682909099 0
 79/home/user/3d-playground/.git/objects/5a/5f871fc2459e853ee36f0c7bd79cff49d282521787238438545825857 0
 79/home/user/3d-playground/.git/objects/bf/036a6a4e07cd62f3aced4617312519f795f7de1787238438548825854 0
+40/home/user/3d-playground/.git/objects/d31787243622583341603 1
 40/home/user/3d-playground/.git/objects/5a1787238438545825857 1
 40/home/user/3d-playground/.git/objects/c21787238438583825831 1
 79/home/user/3d-playground/.git/objects/df/eff5a3075f39b3ccef4a54e7e43388c503c9eb1787238438576825835 0
@@ -179,17 +194,18 @@
 40/home/user/3d-playground/.git/objects/e51787241682592644520 1
 79/home/user/3d-playground/.git/objects/3e/343eb7a038e1932bb0bded84e4668d33b6d94d1787238438583825831 0
 79/home/user/3d-playground/.git/objects/60/8cbe0badcbfe0664501ff28e584502313bace01787233724629989410 0
+79/home/user/3d-playground/.git/objects/ef/4371762572e76568f0e5a4350011341dccf37b1787243622577341607 0
 79/home/user/3d-playground/.git/objects/76/6df13e6c126d45e8730a5dff2473d7dafb167e1787238438578825834 0
 40/home/user/3d-playground/.git/objects/601787233724629989410 1
 40/home/user/3d-playground/.git/objects/aa1787238438548825854 1
-33/home/user/3d-playground/.history1787243616369345775 0
+33/home/user/3d-playground/.history1787244701062617423 0
 79/home/user/3d-playground/.git/objects/31/46ab73102b82f4c079886f953cdfe5b2d71ab21787242389621169644 0
 32/home/user/3d-playground/.bitmap1787233619761059796 0
 45/home/user/3d-playground/.git/refs/heads/main1787233551822105401 0
 79/home/user/3d-playground/.git/objects/a9/14bec16b00fc9df6a335a9c94044c8586e724a1787242102291362618 0
 79/home/user/3d-playground/.git/objects/ef/1c2f7c42feee064a367c90abe5ee09cf53e4281787238438584825830 0
 79/home/user/3d-playground/.git/objects/5f/ad5de0b453c4d339c3e164b355bb0e51c96b6b1787238438581825832 0
-50/home/user/3d-playground/.git/logs/refs/heads/main1787243178722639777 0
+50/home/user/3d-playground/.git/logs/refs/heads/main1787243622589341599 0
 40/home/user/3d-playground/.git/objects/fa1787242777671909106 1
 79/home/user/3d-playground/.git/objects/ef/0c325fb4f27ef2e9d6c5fcacf1559c11f576521787242389628169639 0
 47/home/user/3d-playground/.git/logs/refs/remotes1787233528480121072 1
@@ -242,6 +258,7 @@
 79/home/user/3d-playground/.git/objects/86/52b996c4fb0aece1024d07c4d2408ca19e1e8b1787242389622169643 0
 79/home/user/3d-playground/.git/objects/40/9d562429680ddefdb0316f421c3744eb97be371787238438535825863 0
 40/home/user/3d-playground/.git/objects/ac1787233852728903421 1
+79/home/user/3d-playground/.git/objects/e0/9e345d209f47502ec80be7dacceb2ad2c1e6191787243622588341600 0
 38/home/user/3d-playground/tsconfig.json1787236315057250751 0
 40/home/user/3d-playground/.git/refs/heads1787233039306449545 1
 64/home/user/3d-playground/bruh-man/playground/fall-damage.spec.ts1787232902433541499 0
@@ -260,16 +277,18 @@
 40/home/user/3d-playground/.git/objects/a41787243178716639781 1
 39/home/user/3d-playground/.oxlintrc.json1787236315058250750 0
 39/home/user/3d-playground/.git/ORIG_HEAD1787233619762059796 0
-44/home/user/3d-playground/.git/COMMIT_EDITMSG1787243178721639778 0
+44/home/user/3d-playground/.git/COMMIT_EDITMSG1787243622588341600 0
 79/home/user/3d-playground/.git/objects/4c/30bf0f16aa183d0c72fee8d01ae824313d266f1787241682612644507 0
 79/home/user/3d-playground/.git/objects/09/bdd363ee4f185cefbbff410939267e72ba05851787238438580825833 0
 79/home/user/3d-playground/.git/objects/0d/87ae5b1d9726d04a9d87fcc4c7356d6c2c7e991787238438547825855 0
 54/home/user/3d-playground/.git/hooks/pre-receive.sample1787233039306449545 0
 57/home/user/3d-playground/bruh-man/playground/og-image.png1787232902458541483 0
 40/home/user/3d-playground/.git/objects/951787238438577825835 1
+40/home/user/3d-playground/.git/objects/c61787243622569341612 1
 40/home/user/3d-playground/.git/objects/b11787242102288362620 1
 39/home/user/3d-playground/.git/logs/refs1787233528480121072 1
 40/home/user/3d-playground/.git/objects/231787238438545825857 1
+79/home/user/3d-playground/.git/objects/68/1ea09b15880a766afd84c9ab5549ee439e5a261787243622582341604 0
 79/home/user/3d-playground/.git/objects/23/8e6c32b5c3bfd6f6098855f0f8b99988e1f7711787241682613644506 0
 40/home/user/3d-playground/.git/objects/931787238438585825830 1
 79/home/user/3d-playground/.git/objects/59/9226ed070ae710fdd0d3f3fa353388c048e7ef1787238438536825862 0
@@ -280,6 +299,7 @@
 40/home/user/3d-playground/.git/objects/d01787238438574825837 1
 36/home/user/3d-playground/.git/config1787233039307449545 0
 56/home/user/3d-playground/bruh-man/playground/favicon.svg1787232902435541498 0
+79/home/user/3d-playground/.git/objects/4f/d26c7b22c90097ea32645180e3393a1479ad6e1787243622581341604 0
 42/home/user/3d-playground/.git/info/exclude1787233039305449546 0
 79/home/user/3d-playground/.git/objects/c5/d1f5722e8a1d7432402bc67598cc5665638c971787238438551825853 0
 79/home/user/3d-playground/.git/objects/40/70da1c1f7469c2f8321cbd99e0d158b00fc85f1787243178721639778 0
@@ -287,6 +307,7 @@
 59/home/user/3d-playground/bruh-man/playground/fall-damage.ts1787232902434541499 0
 57/home/user/3d-playground/bruh-man/playground/constants.ts1787232902432541500 0
 44/home/user/3d-playground/bruh-man/playground1787232902431541500 1
+79/home/user/3d-playground/.git/objects/18/add5af7650ef976bea1aab68eb372bb41fef131787243622582341604 0
 34/home/user/3d-playground/README.md1787233717984993869 0
 40/home/user/3d-playground/.git/objects/ce1787242102283362623 1
 79/home/user/3d-playground/.git/objects/51/cef82206331b6266942ff71d22988a0a5a1e5b1787238438576825835 0
@@ -310,10 +331,11 @@
 61/home/user/3d-playground/bruh-man/playground/scene.module.css1787240818597224675 0
 59/home/user/3d-playground/bruh-man/playground/vite.config.js1787232902481541467 0
 79/home/user/3d-playground/.git/objects/22/d9b5d40b9aae32e3e458c4393e1aaadf068dec1787238438545825857 0
-40/home/user/3d-playground/.git/index.lock1787243622553341623 0
+40/home/user/3d-playground/.git/index.lock1787244852927515402 0
 32/home/user/3d-playground/.vscode1787232901964541814 1
 42/home/user/3d-playground/.git/refs/remotes1787233528480121072 1
 29/home/user/3d-playground/.tmp1787232906368538854 1
+79/home/user/3d-playground/.git/objects/98/3c3f402b0729832b268d3b70f22eb06cec6c7d1787243622565341615 0
 37/home/user/3d-playground/scripts/save1787232902962541145 0
 40/home/user/3d-playground/.git/objects/cb1787243178716639781 1
 40/home/user/3d-playground/.git/objects/1e1787242777672909105 1
@@ -329,6 +351,7 @@
 42/home/user/3d-playground/.git/objects/info1787233039308449544 1
 72/home/user/3d-playground/bruh-man/playground/playground.compositions.tsx1787232902470541475 0
 40/home/user/3d-playground/.git/objects/f11787238438546825856 1
+79/home/user/3d-playground/.git/objects/56/86452446e65f6dad18fe2fbd9e8d290248580d1787243622582341604 0
 79/home/user/3d-playground/.git/objects/50/6a6c079837732e9e0e733b7a1e8ced67b0a1c81787243178703639790 0
 79/home/user/3d-playground/.git/objects/48/cad3df2d0f052b5d4f3a7970f3e809d58371051787238438579825834 0
 40/home/user/3d-playground/.git/objects/8b1787241682612644507 1
@@ -344,6 +367,7 @@
 79/home/user/3d-playground/.git/objects/dd/a72e18cf4aff7eec09fc3df118ef6c17a5555d1787242389623169643 0
 40/home/user/3d-playground/.git/objects/351787238438548825854 1
 79/home/user/3d-playground/.git/objects/35/ac4f3e098ce58da412b39d3afdea8a7d76cd321787238438548825854 0
+79/home/user/3d-playground/.git/objects/a8/a0b47a3470d792ce4347a46ab19dd11f9af7571787243622584341602 0
 40/home/user/3d-playground/.git/objects/ab1787238438548825854 1
 79/home/user/3d-playground/.git/objects/aa/f7e9aacae4f205be06bc9fe38dac95ce5de4c11787238438548825854 0
 39/home/user/3d-playground/pnpm-lock.yaml1787232905410539497 0
@@ -358,6 +382,7 @@
 66/home/user/3d-playground/bruh-man/playground/playground.module.css1787232902472541473 0
 79/home/user/3d-playground/.git/objects/1c/ea5170a95da7deb5886965a6d681c42797deb91787238438577825835 0
 79/home/user/3d-playground/.git/objects/fb/f1c5a2a9f5e84ee3ba15005b1590399fcc6a4d1787238438578825834 0
+40/home/user/3d-playground/.git/objects/561787243622582341604 1
 79/home/user/3d-playground/.git/objects/fd/c6bbbf1e8d410ae41ea75eb1a16918763cebca1787243178715639782 0
 40/home/user/3d-playground/.git/objects/3a1787238438579825834 1
 79/home/user/3d-playground/.git/objects/bf/918507811a678499c158aeba6d3d405f0d8b0b1787238438584825830 0
@@ -382,6 +407,7 @@
 40/home/user/3d-playground/.git/objects/1c1787238438577825835 1
 79/home/user/3d-playground/.git/objects/1c/70c248672f83a869459a1f764313df626624851787242102289362619 0
 40/home/user/3d-playground/.git/objects/081787238438572825838 1
+79/home/user/3d-playground/.git/objects/a8/25f609ca7088536faaf5ed8b6d9cf833986aab1787243622583341603 0
 79/home/user/3d-playground/.git/objects/5c/c39e9a580d5c174d5839a223d117453ae9b9c71787238438573825838 0
 40/home/user/3d-playground/.git/objects/301787238438536825862 1
 79/home/user/3d-playground/.git/objects/ae/a4470cefe34ebbe20aa3697fa841e88cc818371787238438573825838 0
@@ -405,12 +431,13 @@
 79/home/user/3d-playground/.git/objects/13/7bd768f36dcd4adee224b7a69bb65893890bf61787238438574825837 0
 79/home/user/3d-playground/.git/objects/6c/96e7947cdac7863cb8aa0d1e682b518524c72b1787238438579825834 0
 40/home/user/3d-playground/.git/objects/e91787238438575825836 1
+79/home/user/3d-playground/.git/objects/c6/597cc522045fa9086ac751fc50637af382cbf11787243622569341612 0
 79/home/user/3d-playground/.git/objects/43/b15c58a9f1621677274b493a3ef09dabb1ba7b1787243178694639796 0
 79/home/user/3d-playground/.git/objects/e9/b071ad4655148964d0a4cc27ad5a1bd853f8da1787238438575825836 0
 79/home/user/3d-playground/.git/objects/07/a3bed1912c4662aec68c575ab9f87d892cb6f41787241682609644509 0
 79/home/user/3d-playground/.git/objects/08/fb011b1ba37c497995758314a6d6eb1c5cd4d21787238438572825838 0
 40/home/user/3d-playground/.git/objects/861787238438575825836 1
-65/home/user/3d-playground/bruh-man/playground/player-controller.ts1787243487166432562 0
+65/home/user/3d-playground/bruh-man/playground/player-controller.ts1787244796283553462 0
 40/home/user/3d-playground/.git/objects/911787238438578825834 1
 79/home/user/3d-playground/.git/objects/86/3b9a7f6a2c73dd9c6c9e256e4589e9b89020ae1787238438575825836 0
 40/home/user/3d-playground/.git/objects/831787238438575825836 1
@@ -428,7 +455,7 @@
 40/home/user/3d-playground/.git/objects/0f1787238438573825838 1
 79/home/user/3d-playground/.git/objects/ee/00339887379b1c88a675f3758a0f4fb9b95c181787238438582825831 0
 40/home/user/3d-playground/.git/objects/a91787233724634989406 1
-39/home/user/3d-playground/.git/logs/HEAD1787243178721639778 0
+39/home/user/3d-playground/.git/logs/HEAD1787243622588341600 0
 79/home/user/3d-playground/.git/objects/29/5bfe9cc4bdea04b8a77d464491c844c45f9f341787238438577825835 0
 79/home/user/3d-playground/.git/objects/75/51b4b4037a9559b75480fee969ae1f30277ba91787242102291362618 0
 29/home/user/3d-playground/.git1787233039305449546 1
@@ -446,12 +473,15 @@
 40/home/user/3d-playground/.git/objects/b51787238438579825834 1
 79/home/user/3d-playground/.git/objects/f2/2c9f831a067ec5813c2b0eb38a05250d43f3c71787242102290362619 0
 79/home/user/3d-playground/.git/objects/3a/e0f9d84a0f08a3c8dc989cf314045e44aa14ab1787238438579825834 0
+79/home/user/3d-playground/.git/objects/b4/263dbbcc70a0ba6fe37753de15e72e74237e7b1787243622576341608 0
+40/home/user/3d-playground/.git/objects/b41787243622576341608 1
 79/home/user/3d-playground/.git/objects/f3/678a3ab78525a823b21e515032a58f0ead5cfa1787238438563825844 0
 40/home/user/3d-playground/.git/objects/2e1787238438579825834 1
 37/home/user/3d-playground/.git/objects1787233039308449544 1
 79/home/user/3d-playground/.git/objects/c7/fe3487230fc5334d0944de3eb1dd1e62460bd61787238438580825833 0
 40/home/user/3d-playground/.git/objects/fd1787243178715639782 1
 40/home/user/3d-playground/.git/objects/d71787238438581825832 1
+79/home/user/3d-playground/.git/objects/30/b675d1dc6010a2062933fa1eb457ca368a93c71787243622581341604 0
 79/home/user/3d-playground/.git/objects/e8/97e5ad1b98b0daf4fb14c055bdb888b05efe3d1787243178714639782 0
 79/home/user/3d-playground/.git/objects/d7/ad6f83e9c3d9f138c32c99e08fbf72a2a528831787238438581825832 0
 40/home/user/3d-playground/.git/objects/e01787238438581825832 1

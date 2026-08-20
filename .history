@@ -79,3 +79,7 @@ bit run playground --port 5173
 save "Movement upd
 "
 bit run playground --port 5173
+save "More update bruh"
+bit check-types
+bit status
+bit run playground --port 5173
