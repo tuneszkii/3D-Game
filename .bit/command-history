@@ -105,3 +105,4 @@
 2026-08-19T23:52:07.718Z 2333 install, started
 2026-08-19T23:52:38.085Z 2333 install, succeeded
 2026-08-20T00:05:29.341Z 2467 run playground --port 5173, started
+2026-08-20T01:18:19.499Z 4224 server --compile, started
