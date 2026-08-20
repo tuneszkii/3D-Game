@@ -619,31 +619,27 @@ export class PlayerController {
       this.simulationTime;
   }
 
-  private startTacticalSprint(): void {
-    if (!this.onGround) {
-      return;
-    }
-
-    if (!this.input.sprint) {
-      return;
-    }
-
-    if (!this.hasForwardMovement()) {
-      return;
-    }
-
-    this.tacticalSprintTimer =
-      TACTICAL_SPRINT_DURATION;
-
-    this.movementState =
-      'tactical-sprinting';
-
-    this.targetHeight =
-      PLAYER_HEIGHT;
-
-    this.cameraEffects.impulseY -=
-      0.035;
+private startTacticalSprint(): void {
+  if (!this.onGround) {
+    return;
   }
+
+  if (!this.hasForwardMovement()) {
+    return;
+  }
+
+  this.tacticalSprintTimer =
+    TACTICAL_SPRINT_DURATION;
+
+  this.movementState =
+    'tactical-sprinting';
+
+  this.targetHeight =
+    PLAYER_HEIGHT;
+
+  this.cameraEffects.impulseY -=
+    0.035;
+}
 
   // ---------------------------------------------------------------------------
   // Crouch / slide
@@ -1654,6 +1650,17 @@ private findMantleTarget():
     return false;
   }
 
+  if (
+  !this.canTraverseMantle(
+    this.position,
+    best.target,
+    PLAYER_HEIGHT,
+    best.collider
+  )
+) {
+  return false;
+}
+
   this.movementState =
     'climbing';
 
@@ -1883,6 +1890,52 @@ private findMantleTarget():
 
     return true;
   }
+
+  private canTraverseMantle(
+  start: THREE.Vector3,
+  target: THREE.Vector3,
+  height: number,
+  ignored: Collider
+): boolean {
+  const steps = 12;
+  const sample =
+    new THREE.Vector3();
+
+  for (
+    let i = 1;
+    i <= steps;
+    i++
+  ) {
+    const t = i / steps;
+
+    const eased =
+      t * t * (3 - 2 * t);
+
+    sample.lerpVectors(
+      start,
+      target,
+      eased
+    );
+
+    const arc =
+      Math.sin(Math.PI * t) *
+      0.18;
+
+    sample.y += arc;
+
+    if (
+      !this.canOccupyAtIgnoring(
+        sample,
+        height,
+        ignored
+      )
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 private moveAxis(
   axis: 'x' | 'y' | 'z',
