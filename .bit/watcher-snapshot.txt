@@ -1,7 +1,16 @@
-286
+303
+73/home/user/3D-Game/.git/objects/87/6c7822f5c34ad11e29251d982b2bb926c02d961787188708300734225 0
+34/home/user/3D-Game/.git/objects/791787188708299734226 1
+73/home/user/3D-Game/.git/objects/92/2f12c0db813e3618bae93d14f6262a99879e7e1787188708295734228 0
+34/home/user/3D-Game/.git/objects/8f1787188708295734228 1
+73/home/user/3D-Game/.git/objects/00/ddc16e6ceb0f39fcd4aa5550f739ff787e0b5d1787188708294734229 0
+34/home/user/3D-Game/.git/objects/001787188708294734229 1
+73/home/user/3D-Game/.git/objects/c2/a3403e2c025875df515026d61327b5cd389e9e1787188708294734229 0
+73/home/user/3D-Game/.git/objects/33/be43b883eec13504198668e5d67fb8b53086a11787188708294734229 0
 55/home/user/3D-Game/bruh-man/playground/scene.module.css1787183250016476406 0
 47/home/user/3D-Game/bruh-man/playground/index.ts1787183250013476408 0
 53/home/user/3D-Game/bruh-man/playground/playground.tsx1787183250016476406 0
+73/home/user/3D-Game/.git/objects/fb/aafb0e22bf29993f5cf00e6f7478a72273074f1787188708299734226 0
 48/home/user/3D-Game/bruh-man/playground/stance.ts1787183250016476406 0
 48/home/user/3D-Game/bruh-man/playground/scene.tsx1787183250016476406 0
 66/home/user/3D-Game/bruh-man/playground/playground.compositions.tsx1787183250016476406 0
@@ -12,10 +21,13 @@
 60/home/user/3D-Game/bruh-man/playground/playground.module.css1787183250016476406 0
 47/home/user/3D-Game/bruh-man/playground/world.ts1787183250017476406 0
 58/home/user/3D-Game/bruh-man/playground/fall-damage.spec.ts1787183250013476408 0
-34/home/user/3D-Game/.git/index.lock1787188708284734236 0
+34/home/user/3D-Game/.git/index.lock1787190496447509445 0
 51/home/user/3D-Game/bruh-man/playground/og-image.png1787183250016476406 0
+34/home/user/3D-Game/.git/objects/c21787188708294734229 1
 38/home/user/3D-Game/bruh-man/playground1787183554604267886 1
+34/home/user/3D-Game/.git/objects/1d1787188708299734226 1
 27/home/user/3D-Game/bruh-man1787183250013476408 1
+34/home/user/3D-Game/.git/objects/fb1787188708299734226 1
 79/home/user/3D-Game/.tmp/tool-results/tr_toolu_vrtx_01NNQQVs7GENSzXNw1a9yvA5.txt1787183250013476408 0
 36/home/user/3D-Game/.tmp/tool-results1787183250013476408 1
 73/home/user/3D-Game/.git/objects/81/7dc2083e221caa53655964bd8fbf4721f62faa1787185445093973561 0
@@ -36,6 +48,7 @@
 34/home/user/3D-Game/.git/objects/361787185445092973561 1
 34/home/user/3D-Game/.git/objects/991787183489910312171 1
 48/home/user/3D-Game/.git/logs/refs/remotes/origin1787183491250311254 1
+73/home/user/3D-Game/.git/objects/79/30d677d559657a7cabec53de7ffb7584a99a111787188708299734226 0
 34/home/user/3D-Game/.git/objects/2a1787183489913312169 1
 34/home/user/3D-Game/.git/objects/731787185445092973561 1
 87/home/user/3D-Game/.git/objects/pack/pack-244eb4f925c2aeb992371b3802cb2c691ca5f726.pack1787185445089973564 0
@@ -77,7 +90,7 @@
 73/home/user/3D-Game/.git/objects/20/d24bb384bc3b938a6f6e3e5eb2218c528fdfaa1787183489914312169 0
 73/home/user/3D-Game/.git/objects/61/9d523416bab06be12323657cab703a74cb41d71787183489908312173 0
 34/home/user/3D-Game/.git/objects/5f1787183489895312182 1
-53/home/user/3D-Game/.git/logs/refs/remotes/origin/main1787185446618972517 0
+53/home/user/3D-Game/.git/logs/refs/remotes/origin/main1787188709708733261 0
 34/home/user/3D-Game/.git/objects/b31787185445094973560 1
 48/home/user/3D-Game/.git/refs/remotes/origin/HEAD1787183250001476416 0
 34/home/user/3D-Game/.git/objects/611787183489908312173 1
@@ -206,6 +219,7 @@
 73/home/user/3D-Game/.git/objects/44/ceefb7d191588e12a047a5c4151b63e0f040bd1787183489915312168 0
 34/home/user/3D-Game/.git/objects/541787183489910312171 1
 73/home/user/3D-Game/.git/objects/26/1f28dddf9828f20555ea570c7625cc15ded9d81787185445092973561 0
+73/home/user/3D-Game/.git/objects/8f/1e97bff454516ca22db0ccea92cb7c394a37051787188708295734228 0
 73/home/user/3D-Game/.git/objects/26/8162d06b4283c858f02ea9a7aa25dc437f56111787183489908312173 0
 36/home/user/3D-Game/.git/refs/remotes1787183250001476416 1
 34/home/user/3D-Game/.git/objects/451787183489912312170 1
@@ -214,6 +228,7 @@
 73/home/user/3D-Game/.git/objects/c8/bbe7eaa3de922d06fb145146be2a93873e6f551787183489896312181 0
 73/home/user/3D-Game/.git/objects/65/cda56329a880f983f609bf1de7476db0eb95c81787183489898312179 0
 34/home/user/3D-Game/.git/objects/761787185445090973563 1
+34/home/user/3D-Game/.git/objects/871787188708300734225 1
 49/home/user/3D-Game/bruh-man/playground/index.html1787183250013476408 0
 34/home/user/3D-Game/.git/objects/0f1787185445090973563 1
 73/home/user/3D-Game/.git/objects/cf/5444a50e96496085d115ce3e5b76cb0ed45bd91787183489895312182 0
@@ -236,7 +251,8 @@
 34/home/user/3D-Game/.git/objects/441787183489915312168 1
 86/home/user/3D-Game/.git/objects/pack/pack-244eb4f925c2aeb992371b3802cb2c691ca5f726.idx1787183249951476450 0
 34/home/user/3D-Game/.git/objects/831787183489907312173 1
-44/home/user/3D-Game/.git/logs/refs/heads/main1787185445094973560 0
+73/home/user/3D-Game/.git/objects/b2/cb4272316df6ebc1484c07413ed694dd05250d1787188708293734230 0
+44/home/user/3D-Game/.git/logs/refs/heads/main1787188708301734224 0
 23/home/user/3D-Game/.tmp1787183250013476408 1
 73/home/user/3D-Game/.git/objects/83/6618d6838ed9e669274423dd5dbe68159bde211787183489907312173 0
 73/home/user/3D-Game/.git/objects/a6/476231c19de885950dbea708b447ebadc42dbb1787183489912312170 0
@@ -275,13 +291,14 @@
 34/home/user/3D-Game/.git/objects/ec1787183489897312180 1
 32/home/user/3D-Game/.git/branches1787183249390476835 1
 33/home/user/3D-Game/pnpm-lock.yaml1787183554894267687 0
-38/home/user/3D-Game/.git/COMMIT_EDITMSG1787185445093973561 0
+38/home/user/3D-Game/.git/COMMIT_EDITMSG1787188708300734225 0
 73/home/user/3D-Game/.git/objects/91/24d319e798949119415ca64c0b1655fa5810331787183489907312173 0
 28/home/user/3D-Game/.git/logs1787183250001476416 1
 33/home/user/3D-Game/.git/logs/refs1787183250001476416 1
 41/home/user/3D-Game/.git/logs/refs/remotes1787183250001476416 1
 73/home/user/3D-Game/.git/objects/04/0641ddd3cb86fe072c94bf544c840e70d1645a1787183489909312172 0
 39/home/user/3D-Game/.git/logs/refs/heads1787183250001476416 1
+73/home/user/3D-Game/.git/objects/1d/2e7c16d493085e8f996974c3d78820103022ee1787188708299734226 0
 50/home/user/3D-Game/bruh-man/playground/favicon.svg1787183250013476408 0
-33/home/user/3D-Game/.git/logs/HEAD1787185445094973560 0
+33/home/user/3D-Game/.git/logs/HEAD1787188708301734224 0
 34/home/user/3D-Game/.prettierrc.cjs1787183558047265528 0
