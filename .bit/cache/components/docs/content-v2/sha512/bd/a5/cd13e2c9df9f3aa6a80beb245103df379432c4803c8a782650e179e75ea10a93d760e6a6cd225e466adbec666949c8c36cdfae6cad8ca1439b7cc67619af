@@ -1,0 +1,1 @@
+[{"name":"","description":"Spawn is z=22.\n\nThe obstacle occupies z=20..21,\nputting the player immediately adjacent\nto its front face.","args":[],"returns":{},"access":"public","examples":[],"render":"","properties":[],"static":false,"filePath":"player-controller.spec.ts"}]

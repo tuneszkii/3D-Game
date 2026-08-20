@@ -50,3 +50,15 @@ git status
 echo "test" >> README.md
 save "Test save command"
 git push --set-upstream origin main
+save "testing save command"
+bit status
+bit list
+bit check-types
+bit install --add-missing-deps
+pnpm --version
+bit status
+bit check-types
+echo 'export PATH="/home/user/.npm-global/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+cd ~/playground
+bit run playground --port 5173

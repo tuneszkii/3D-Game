@@ -7,13 +7,8 @@ import {
 
 import * as THREE from 'three';
 
-import {
-  createWorld,
-} from './world.js';
-
-import {
-  PlayerController,
-} from './player-controller.js';
+import { createWorld } from './world.js';
+import { PlayerController } from './player-controller.js';
 
 import type {
   PlayerSnapshot,
@@ -21,10 +16,8 @@ import type {
 
 import styles from './scene.module.css';
 
-const DEBUG_COLOR =
-  0x2ee6a8;
+const DEBUG_COLOR = 0x2ee6a8;
 
-/** Builds wireframe helpers for every world collider. */
 function buildColliderHelpers(
   colliders: readonly THREE.Box3[]
 ): THREE.Group {
@@ -81,25 +74,22 @@ const emptySnapshot:
 
 export function Scene() {
   const containerRef =
-    useRef<HTMLDivElement>(null);
+    useRef<HTMLDivElement>(
+      null
+    );
 
   const canvasRef =
-    useRef<HTMLCanvasElement>(null);
+    useRef<HTMLCanvasElement>(
+      null
+    );
 
-  const [
-    locked,
-    setLocked,
-  ] = useState(false);
+  const [locked, setLocked] =
+    useState(false);
 
-  const [
-    fps,
-    setFps,
-  ] = useState(0);
+  const [fps, setFps] =
+    useState(0);
 
-  const [
-    snapshot,
-    setSnapshot,
-  ] =
+  const [snapshot, setSnapshot] =
     useState<PlayerSnapshot>(
       emptySnapshot
     );
@@ -162,12 +152,10 @@ export function Scene() {
         colliders
       );
 
-    /*
-     * IMPORTANT:
-     *
-     * The controller now exposes worldColliders,
-     * so the debug helper and controller use the
-     * exact same collider array.
+    /**
+     * The controller and debug renderer
+     * intentionally share the exact same
+     * collider objects.
      */
     const debugGroup =
       buildColliderHelpers(
@@ -182,10 +170,11 @@ export function Scene() {
     );
 
     const resize = () => {
-      const {
-        clientWidth: width,
-        clientHeight: height,
-      } = container;
+      const width =
+        container.clientWidth;
+
+      const height =
+        container.clientHeight;
 
       renderer.setSize(
         width,
@@ -217,37 +206,36 @@ export function Scene() {
     const onKeyDown = (
       event: KeyboardEvent
     ) => {
-      /*
-       * Prevent the browser from scrolling
-       * when Space is used as jump/climb.
+      /**
+       * Don't let Space scroll the page.
        */
       if (
-        event.code === 'Space'
+        event.code ===
+        'Space'
       ) {
         event.preventDefault();
       }
 
-      /*
-       * Prevent browser behavior for our
-       * debug shortcut.
+      /**
+       * Don't let the debug shortcut
+       * trigger browser behavior.
        */
       if (
         event.ctrlKey &&
         event.shiftKey &&
-        event.code === 'KeyB'
+        event.code ===
+          'KeyB'
       ) {
         event.preventDefault();
       }
 
-      const toggledDebug =
+      const debugChanged =
         player.handleKey(
           event.code,
           true
         );
 
-      if (
-        toggledDebug
-      ) {
+      if (debugChanged) {
         debugGroup.visible =
           player.debugEnabled;
       }
@@ -278,19 +266,20 @@ export function Scene() {
       );
     };
 
-    const onLockChange = () => {
-      const isLocked =
-        document.pointerLockElement ===
-        canvas;
+    const onLockChange =
+      () => {
+        const isLocked =
+          document.pointerLockElement ===
+          canvas;
 
-      setLocked(
-        isLocked
-      );
+        setLocked(
+          isLocked
+        );
 
-      if (!isLocked) {
-        player.releaseKeys();
-      }
-    };
+        if (!isLocked) {
+          player.releaseKeys();
+        }
+      };
 
     window.addEventListener(
       'keydown',
@@ -339,6 +328,7 @@ export function Scene() {
       );
 
       frames += 1;
+
       accumulatedTime +=
         delta;
 
@@ -428,7 +418,8 @@ export function Scene() {
   }, []);
 
   const stanceLabel =
-    snapshot.stance === 'stand'
+    snapshot.stance ===
+    'stand'
       ? 'Standing'
       : snapshot.stance ===
           'crouch'
@@ -512,7 +503,9 @@ export function Scene() {
           </div>
 
           <div
-            className={styles.hud}
+            className={
+              styles.hud
+            }
           >
             <span>
               {fps} FPS
@@ -522,12 +515,12 @@ export function Scene() {
               x{' '}
               {snapshot.position.x.toFixed(
                 1
-              )}{' '}
-              · y{' '}
+              )}
+              {' · y '}
               {snapshot.position.y.toFixed(
                 1
-              )}{' '}
-              · z{' '}
+              )}
+              {' · z '}
               {snapshot.position.z.toFixed(
                 1
               )}
@@ -550,6 +543,11 @@ export function Scene() {
                 }
               >
                 DEBUG
+              </div>
+
+              <div>
+                state{' '}
+                {modeLabel}
               </div>
 
               <div>
@@ -595,6 +593,13 @@ export function Scene() {
               </div>
 
               <div>
+                sprinting{' '}
+                {String(
+                  snapshot.sprinting
+                )}
+              </div>
+
+              <div>
                 sliding{' '}
                 {String(
                   snapshot.sliding
@@ -605,13 +610,6 @@ export function Scene() {
                 climbing{' '}
                 {String(
                   snapshot.climbing
-                )}
-              </div>
-
-              <div>
-                sprinting{' '}
-                {String(
-                  snapshot.sprinting
                 )}
               </div>
 
@@ -635,11 +633,10 @@ export function Scene() {
           >
             WASD move · Shift sprint ·
             Shift×2 tactical sprint ·
-            C crouch/slide ·
-            C or Space slide cancel ·
+            C crouch / slide / cancel ·
             X prone ·
-            Space jump/climb ·
-            Ctrl+Shift+B debug
+            Space jump / mantle / slide-cancel ·
+            Mouse look · Ctrl+Shift+B debug
           </div>
         </>
       )}
@@ -649,7 +646,9 @@ export function Scene() {
           className={
             styles.overlay
           }
-          onClick={requestLock}
+          onClick={
+            requestLock
+          }
           role="presentation"
         >
           <div
@@ -670,11 +669,8 @@ export function Scene() {
                 styles.subtitle
               }
             >
-              COD-inspired movement:
-              tactical sprint,
-              slide cancels,
-              prone and contextual
-              climbing.
+              COD-inspired
+              movement sandbox.
             </p>
 
             <div
@@ -767,7 +763,7 @@ export function Scene() {
                     styles.key
                   }
                 >
-                  C / Space
+                  C
                 </span>
                 slide cancel
               </span>
@@ -799,7 +795,7 @@ export function Scene() {
                 >
                   Space
                 </span>
-                jump / climb
+                jump / mantle
               </span>
 
               <span
